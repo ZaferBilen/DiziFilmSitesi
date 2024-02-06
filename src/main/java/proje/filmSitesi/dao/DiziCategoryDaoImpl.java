@@ -15,6 +15,7 @@ import proje.filmSitesi.requests.category.UpdateDiziCategoryRequest;
 import proje.filmSitesi.responses.category.AdminGetAllDiziCategoryResponse;
 import proje.filmSitesi.responses.category.GetAllDiziCategoryResponse;
 import proje.filmSitesi.responses.category.GetDiziByCategoryResponse;
+import proje.filmSitesi.rules.DiziCategoryBusinessRules;
 
 @Service
 @AllArgsConstructor
@@ -22,6 +23,7 @@ public class DiziCategoryDaoImpl implements DiziCategoryDao {
 	
 	private DiziCategoryRepository diziCategoryRepository;
 	private IModelMapperService modelMapperService;
+	private DiziCategoryBusinessRules diziCategoryBusinessRules;
 
 	@Override
 	public List<GetAllDiziCategoryResponse> getAllDiziCategoryResponse() {
@@ -70,6 +72,8 @@ public class DiziCategoryDaoImpl implements DiziCategoryDao {
 	@Override
 	public void add(CreateDiziCategoryRequest createDiziCategoryRequest) {
 		
+		this.diziCategoryBusinessRules.checkIfDiziCategoryNameExists(createDiziCategoryRequest.getName());
+		
 		DiziCategory diziCategory =this.modelMapperService.forRequest()
 				.map(createDiziCategoryRequest, DiziCategory.class);
 		this.diziCategoryRepository.save(diziCategory);
@@ -80,6 +84,8 @@ public class DiziCategoryDaoImpl implements DiziCategoryDao {
 	
 	@Override
 	public void update(UpdateDiziCategoryRequest updateDiziCategoryRequest) {
+		
+		this.diziCategoryBusinessRules.checkIfDiziCategoryNameExists(updateDiziCategoryRequest.getName());
 		
 		DiziCategory diziCategory =this.modelMapperService.forRequest()
 				.map(updateDiziCategoryRequest, DiziCategory.class);

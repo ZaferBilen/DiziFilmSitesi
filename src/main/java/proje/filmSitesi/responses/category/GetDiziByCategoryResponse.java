@@ -9,5 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GetDiziByCategoryResponse {
 
-	private String diziName;
+	private String diziCategoryName;
+	private String dizilerName;
 }

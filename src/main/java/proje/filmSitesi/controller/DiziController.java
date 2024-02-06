@@ -50,7 +50,7 @@ public class DiziController {
         return ResponseEntity.ok(dizi);
     }
 	
-	 @GetMapping("/{filmName}")
+	 @GetMapping("/{diziName}")
 	 public GetDiziByNameResponse getDiziById(@PathVariable String diziName) {
 	    	
 	    return diziDao.getByDiziName(diziName);

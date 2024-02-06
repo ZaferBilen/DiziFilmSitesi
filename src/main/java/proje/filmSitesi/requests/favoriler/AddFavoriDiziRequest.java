@@ -10,8 +10,7 @@ import lombok.NoArgsConstructor;
 public class AddFavoriDiziRequest {
 	
 	private Long diziId;
-	
-	private Long kullaniciId;
+
 	
 	
 }

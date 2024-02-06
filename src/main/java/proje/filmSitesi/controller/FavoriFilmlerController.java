@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,24 +32,20 @@ public class FavoriFilmlerController {
         
     }
 
-    
-    
+ 
     @DeleteMapping("/removeFavoriteFilm")
-    public ResponseEntity<String> removeFavoriteFilm(@RequestBody RemoveFavoriFilmRequest removeKullaniciFilmRequest) {
+    public ResponseEntity<String> removeFavoriteFilm(@RequestBody RemoveFavoriFilmRequest removeFavoriFilmRequest) {
 
-    	Long kullaniciId = removeKullaniciFilmRequest.getKullaniciId();
-    	Long filmId = removeKullaniciFilmRequest.getFilmId();
-    	
-    	favoriFilmlerDao.removeFavoriteFilm(kullaniciId, filmId);
+        favoriFilmlerDao.removeFavoriteFilm(removeFavoriFilmRequest);
         
-    	return ResponseEntity.ok("Film favorilerinizden çıkarıldı");
+        return ResponseEntity.ok("Film favorilerinizden çıkarıldı");
     }
 
     
-    @GetMapping("/getfavorifilmler/{kullaniciId}")
-    public List<GeKullaniciFavoriteResponseFilm> getFavorilerByKullanici(@PathVariable Long kullaniciId) {
+    @GetMapping("/getfavorifilmler")
+    public List<GeKullaniciFavoriteResponseFilm> getFavorilerByKullanici() {
 
-        return favoriFilmlerDao.getFavorilerByKullanici(kullaniciId);
+    	return favoriFilmlerDao.getFavorilerByKullanici();
         
     }
     

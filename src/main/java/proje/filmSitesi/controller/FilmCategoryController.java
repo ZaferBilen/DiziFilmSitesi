@@ -47,7 +47,7 @@ public class FilmCategoryController {
 	
 	@GetMapping("/{filmCategoryName}")
 	public ResponseEntity<List<GetFilmByCategoryResponse>> getFilmByCategory(@PathVariable String filmCategoryName){
-		
+	
 		List<GetFilmByCategoryResponse> filmCategoryResponses = filmCategoryDao.getFilmByCategoryResponse(filmCategoryName);
 			
 		return new ResponseEntity<>(filmCategoryResponses, HttpStatus.OK);

@@ -15,6 +15,7 @@ import proje.filmSitesi.requests.category.UpdateFilmCategoryRequest;
 import proje.filmSitesi.responses.category.AdminGetAllCategoryResponse;
 import proje.filmSitesi.responses.category.GetAllFilmCategoryResponse;
 import proje.filmSitesi.responses.category.GetFilmByCategoryResponse;
+import proje.filmSitesi.rules.FilmCategoryBusinessRules;
 
 @Service
 @AllArgsConstructor
@@ -22,6 +23,7 @@ public class FilmCategoryDaoImpl implements FilmCategoryDao {
 	
 	private FilmCategoryRepository filmCategoryRepository;
 	private IModelMapperService modelMapperService;
+	private FilmCategoryBusinessRules filmCategoryBusinessRules;
 	
 
 	@Override
@@ -63,6 +65,8 @@ public class FilmCategoryDaoImpl implements FilmCategoryDao {
 	@Override
 	public void add(CreateFilmCategoryRequest createFilmCategoryRequest) {
 		
+		this.filmCategoryBusinessRules.checkIfFilmCategoryNameExists(createFilmCategoryRequest.getName());
+		
 		FilmCategory filmCategory =this.modelMapperService.forRequest()
 				.map(createFilmCategoryRequest, FilmCategory.class);
 		this.filmCategoryRepository.save(filmCategory);
@@ -71,6 +75,8 @@ public class FilmCategoryDaoImpl implements FilmCategoryDao {
 
 	@Override
 	public void update(UpdateFilmCategoryRequest updateFilmCategoryRequest) {
+		
+		this.filmCategoryBusinessRules.checkIfFilmCategoryNameExists(updateFilmCategoryRequest.getName());
 		
 		FilmCategory filmCategory =this.modelMapperService.forRequest()
 				.map(updateFilmCategoryRequest, FilmCategory.class);

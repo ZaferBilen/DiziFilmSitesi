@@ -47,6 +47,7 @@ public class FilmDaoImpl implements FilmDao{
 
 	@Override
 	public GetFilmByNameResponse getByFilmName(String filmName) {
+		
 		Film film = this.filmRepository.findByName(filmName);
 		
 		GetFilmByNameResponse response = this.modelMapperService.forResponse()

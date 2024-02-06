@@ -5,15 +5,19 @@ import java.util.Collections;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
+import proje.filmSitesi.config.KullaniciInfoDetails;
 import proje.filmSitesi.core.utilities.mappers.IModelMapperService;
 import proje.filmSitesi.model.FavoriDiziler;
 import proje.filmSitesi.model.Kullanici;
 import proje.filmSitesi.repository.FavoriDizilerRepository;
 import proje.filmSitesi.repository.KullaniciRepository;
 import proje.filmSitesi.requests.favoriler.AddFavoriDiziRequest;
+import proje.filmSitesi.requests.favoriler.RemoveFavoriDiziRequest;
 import proje.filmSitesi.responses.favoriler.GeKullaniciFavoriteResponseDizi;
 
 @Service
@@ -27,26 +31,50 @@ public class FavoriDizilerDaoImpl implements FavoriDizilerDao {
 	@Override
 	public void addFavoriDizi(AddFavoriDiziRequest addFavoriDiziRequest) {
 		
+		 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+	        if (authentication != null && authentication.getPrincipal() instanceof KullaniciInfoDetails) {
+	            KullaniciInfoDetails kullaniciInfo = (KullaniciInfoDetails) authentication.getPrincipal();
+	            Long kullaniciId = kullaniciInfo.getId();
+		
 		ModelMapper modelMapper = modelMapperService.forRequest();
         
-	    FavoriDiziler favoriDiziler = modelMapper.map(addFavoriDiziRequest, FavoriDiziler.class);
-	    favoriDizilerRepository.save(favoriDiziler);
-    }
+	    FavoriDiziler favoriler = modelMapper.map(addFavoriDiziRequest, FavoriDiziler.class);
+	    
+	    Kullanici kullanici = new Kullanici();
+        kullanici.setId(kullaniciId);
+        favoriler.setKullanici(kullanici);
+	    favoriDizilerRepository.save(favoriler);
+	 }
+  }
 
 	@Override
-	public void removeFavoriteDizi(Long kullaniciId, Long diziId) {
+	public void removeFavoriteDizi(RemoveFavoriDiziRequest removeFavoriDiziRequest) {
 		
-		FavoriDiziler favoriDiziler = favoriDizilerRepository.findByKullaniciIdAndDiziId(kullaniciId, diziId);
-		
-		if(favoriDiziler != null) {
-			favoriDizilerRepository.delete(favoriDiziler);
+		 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+		    if (authentication != null && authentication.getPrincipal() instanceof KullaniciInfoDetails) {
+		        KullaniciInfoDetails kullaniciInfo = (KullaniciInfoDetails) authentication.getPrincipal();
+		        Long kullaniciId = kullaniciInfo.getId();
+		        
+		        Long diziId = removeFavoriDiziRequest.getDiziId();
+		        FavoriDiziler favoriler = favoriDizilerRepository.findByKullaniciIdAndDiziId(kullaniciId, diziId);
+		        
+		        favoriDizilerRepository.delete(favoriler);
 		}
 	}
 
 	@Override
-	public List<GeKullaniciFavoriteResponseDizi> getFavorilerByKullanici(Long kullaniciId) {
+	public List<GeKullaniciFavoriteResponseDizi> getFavorilerByKullanici() {
 		
-		Kullanici kullanici = kullaniciRepository.findById(kullaniciId).orElse(null);
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+		if (authentication != null && authentication.getPrincipal() instanceof KullaniciInfoDetails) {
+		    KullaniciInfoDetails kullaniciInfo = (KullaniciInfoDetails) authentication.getPrincipal();
+		    Long loggedInKullaniciId = kullaniciInfo.getId();
+
+		    Kullanici kullanici = kullaniciRepository.findById(loggedInKullaniciId).orElse(null);
+		    
 		if(kullanici != null) {
 			List<GeKullaniciFavoriteResponseDizi> response = new ArrayList<>();
 			for(FavoriDiziler favoriDiziler : kullanici.getFavoriDiziler()) {
@@ -54,6 +82,7 @@ public class FavoriDizilerDaoImpl implements FavoriDizilerDao {
 			}
 			
 			return response;
+		   }
 		}
 		return Collections.emptyList();
 	}

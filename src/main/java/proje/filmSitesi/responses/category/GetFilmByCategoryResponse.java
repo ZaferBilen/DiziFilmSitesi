@@ -9,5 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GetFilmByCategoryResponse {
 
-	private String filmName;
+	private String filmCategoryName;
+	private String filmlerName;
 }

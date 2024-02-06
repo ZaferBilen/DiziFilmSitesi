@@ -9,7 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RemoveFavoriDiziRequest {
 
-	private Long kullaniciId;
-	
 	private Long diziId;
 }

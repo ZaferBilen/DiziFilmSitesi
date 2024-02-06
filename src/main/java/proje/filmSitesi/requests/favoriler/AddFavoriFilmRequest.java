@@ -11,6 +11,4 @@ public class AddFavoriFilmRequest {
 
 	private Long filmId;
 	
-	private Long kullaniciId;
-	
 }
