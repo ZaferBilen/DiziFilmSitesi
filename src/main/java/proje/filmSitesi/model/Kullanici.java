@@ -34,7 +34,11 @@ public class Kullanici {
 	@Column(nullable = false)
 	private String sifre;
 	
-	private String role;
+	public enum UserRole {
+	    ADMIN, NORMAL
+	}
+	
+	private UserRole role;
 	
 	@Transient
     private String geciciDogrulamaKodu;

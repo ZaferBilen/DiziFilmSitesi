@@ -3,6 +3,7 @@ package proje.filmSitesi.responses.kullanici;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import proje.filmSitesi.model.Kullanici.UserRole;
 
 @Data
 @AllArgsConstructor
@@ -17,5 +18,5 @@ public class GetAllKullaniciResponse {
 
 	private String email;
 	
-	private String role;
+	private UserRole role;
 }

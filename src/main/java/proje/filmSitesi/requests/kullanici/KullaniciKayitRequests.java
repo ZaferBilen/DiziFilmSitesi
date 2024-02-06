@@ -3,6 +3,7 @@ package proje.filmSitesi.requests.kullanici;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import proje.filmSitesi.model.Kullanici.UserRole;
 
 @Data
 @AllArgsConstructor
@@ -17,7 +18,7 @@ public class KullaniciKayitRequests {
 	
 	private String sifre;
 	
-	private String role;
+	private UserRole role;
 
 	private String geciciDogrulamaKodu;
 }

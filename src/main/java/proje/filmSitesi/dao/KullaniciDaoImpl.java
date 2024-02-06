@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
 import proje.filmSitesi.model.Kullanici;
+import proje.filmSitesi.model.Kullanici.UserRole;
 import proje.filmSitesi.repository.KullaniciRepository;
 import proje.filmSitesi.requests.kullanici.KullaniciGirisRequests;
 import proje.filmSitesi.requests.kullanici.KullaniciKayitRequests;
@@ -53,7 +54,7 @@ public class KullaniciDaoImpl implements KullaniciDao{
 	    String sifre = kullaniciKayitRequests.getSifre();
 	    String name = kullaniciKayitRequests.getName();
 	    String surname = kullaniciKayitRequests.getSurname();
-	    String role = kullaniciKayitRequests.getRole();
+	    UserRole role = kullaniciKayitRequests.getRole();
 
 	    String cachedCode = DogrulamaKoduOnBellegi.getVerificationCode(email);
 
