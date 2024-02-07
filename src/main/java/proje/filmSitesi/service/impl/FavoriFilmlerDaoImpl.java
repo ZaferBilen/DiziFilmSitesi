@@ -1,4 +1,4 @@
-package proje.filmSitesi.dao;
+package proje.filmSitesi.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,6 +19,7 @@ import proje.filmSitesi.repository.KullaniciRepository;
 import proje.filmSitesi.requests.favoriler.AddFavoriFilmRequest;
 import proje.filmSitesi.requests.favoriler.RemoveFavoriFilmRequest;
 import proje.filmSitesi.responses.favoriler.GeKullaniciFavoriteResponseFilm;
+import proje.filmSitesi.service.interfaces.FavoriFilmlerDao;
 
 @Service
 @AllArgsConstructor
@@ -37,6 +38,13 @@ public class FavoriFilmlerDaoImpl implements FavoriFilmlerDao {
 	            KullaniciInfoDetails kullaniciInfo = (KullaniciInfoDetails) authentication.getPrincipal();
 	            Long kullaniciId = kullaniciInfo.getId();
 
+	            Long filmId = addFavoriFilmRequest.getFilmId();
+
+	            FavoriFilmler existingFavorite = favoriFilmlerRepository.findByKullaniciIdAndFilmId(kullaniciId, filmId);
+
+	            if (existingFavorite != null) {
+	                throw new RuntimeException("Bu film zaten favorilerinizde mevcut");
+	            }
 	            
 	            ModelMapper modelMapper = modelMapperService.forRequest();
 	            FavoriFilmler favoriler = modelMapper.map(addFavoriFilmRequest, FavoriFilmler.class);

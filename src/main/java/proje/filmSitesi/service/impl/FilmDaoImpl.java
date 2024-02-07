@@ -1,4 +1,4 @@
-package proje.filmSitesi.dao;
+package proje.filmSitesi.service.impl;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,6 +14,7 @@ import proje.filmSitesi.requests.film.UpdateFilmRequest;
 import proje.filmSitesi.responses.film.AdminGetAllFilmsResponse;
 import proje.filmSitesi.responses.film.GetAllFilmsResponse;
 import proje.filmSitesi.responses.film.GetFilmByNameResponse;
+import proje.filmSitesi.service.interfaces.FilmDao;
 
 @Service
 @AllArgsConstructor

@@ -1,4 +1,4 @@
-package proje.filmSitesi.dao;
+package proje.filmSitesi.service.impl;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,6 +14,7 @@ import proje.filmSitesi.requests.dizi.UpdateDiziRequest;
 import proje.filmSitesi.responses.dizi.AdminGetAllDiziResponse;
 import proje.filmSitesi.responses.dizi.GetAllDiziResponse;
 import proje.filmSitesi.responses.dizi.GetDiziByNameResponse;
+import proje.filmSitesi.service.interfaces.DiziDao;
 
 @Service
 @AllArgsConstructor

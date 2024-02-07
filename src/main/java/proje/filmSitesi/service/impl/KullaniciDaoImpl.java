@@ -1,4 +1,4 @@
-package proje.filmSitesi.dao;
+package proje.filmSitesi.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,13 +11,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
+import proje.filmSitesi.core.utilities.DogrulamaKoduOnBellegi;
 import proje.filmSitesi.model.Kullanici;
 import proje.filmSitesi.model.Kullanici.UserRole;
 import proje.filmSitesi.repository.KullaniciRepository;
 import proje.filmSitesi.requests.kullanici.KullaniciGirisRequests;
 import proje.filmSitesi.requests.kullanici.KullaniciKayitRequests;
 import proje.filmSitesi.responses.kullanici.GetAllKullaniciResponse;
-import proje.filmSitesi.util.DogrulamaKoduOnBellegi;
+import proje.filmSitesi.service.interfaces.EmailDao;
+import proje.filmSitesi.service.interfaces.KullaniciDao;
 
 @Service
 @AllArgsConstructor

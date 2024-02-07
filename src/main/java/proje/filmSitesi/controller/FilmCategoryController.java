@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.AllArgsConstructor;
-import proje.filmSitesi.dao.FilmCategoryDao;
 import proje.filmSitesi.requests.category.CreateFilmCategoryRequest;
 import proje.filmSitesi.requests.category.UpdateFilmCategoryRequest;
 import proje.filmSitesi.responses.category.AdminGetAllCategoryResponse;
 import proje.filmSitesi.responses.category.GetAllFilmCategoryResponse;
 import proje.filmSitesi.responses.category.GetFilmByCategoryResponse;
+import proje.filmSitesi.service.interfaces.FilmCategoryDao;
 
 @RestController
 @RequestMapping("/film-categori")  

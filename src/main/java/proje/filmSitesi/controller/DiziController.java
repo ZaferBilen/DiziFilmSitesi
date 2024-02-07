@@ -19,12 +19,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import proje.filmSitesi.dao.DiziDao;
 import proje.filmSitesi.requests.dizi.CreateDiziRequest;
 import proje.filmSitesi.requests.dizi.UpdateDiziRequest;
 import proje.filmSitesi.responses.dizi.AdminGetAllDiziResponse;
 import proje.filmSitesi.responses.dizi.GetAllDiziResponse;
 import proje.filmSitesi.responses.dizi.GetDiziByNameResponse;
+import proje.filmSitesi.service.interfaces.DiziDao;
 
 @RestController
 @RequestMapping("/dizi")

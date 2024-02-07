@@ -1,4 +1,4 @@
-package proje.filmSitesi.dao;
+package proje.filmSitesi.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,6 +19,7 @@ import proje.filmSitesi.repository.KullaniciRepository;
 import proje.filmSitesi.requests.favoriler.AddFavoriDiziRequest;
 import proje.filmSitesi.requests.favoriler.RemoveFavoriDiziRequest;
 import proje.filmSitesi.responses.favoriler.GeKullaniciFavoriteResponseDizi;
+import proje.filmSitesi.service.interfaces.FavoriDizilerDao;
 
 @Service
 @AllArgsConstructor
@@ -31,20 +32,28 @@ public class FavoriDizilerDaoImpl implements FavoriDizilerDao {
 	@Override
 	public void addFavoriDizi(AddFavoriDiziRequest addFavoriDiziRequest) {
 		
-		 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-	        if (authentication != null && authentication.getPrincipal() instanceof KullaniciInfoDetails) {
-	            KullaniciInfoDetails kullaniciInfo = (KullaniciInfoDetails) authentication.getPrincipal();
-	            Long kullaniciId = kullaniciInfo.getId();
+	    	if (authentication != null && authentication.getPrincipal() instanceof KullaniciInfoDetails) {
+	    		KullaniciInfoDetails kullaniciInfo = (KullaniciInfoDetails) authentication.getPrincipal();
+	    		Long kullaniciId = kullaniciInfo.getId();
+	    		
+	    		Long diziId = addFavoriDiziRequest.getDiziId();
+
+	            FavoriDiziler existingFavorite = favoriDizilerRepository.findByKullaniciIdAndDiziId(kullaniciId, diziId);
+
+	            if (existingFavorite != null) {
+	                throw new RuntimeException("Bu dizi zaten favorilerinizde mevcut");
+	            }
 		
-		ModelMapper modelMapper = modelMapperService.forRequest();
+	    		ModelMapper modelMapper = modelMapperService.forRequest();
         
-	    FavoriDiziler favoriler = modelMapper.map(addFavoriDiziRequest, FavoriDiziler.class);
+	    		FavoriDiziler favoriler = modelMapper.map(addFavoriDiziRequest, FavoriDiziler.class);
 	    
-	    Kullanici kullanici = new Kullanici();
-        kullanici.setId(kullaniciId);
-        favoriler.setKullanici(kullanici);
-	    favoriDizilerRepository.save(favoriler);
+	    		Kullanici kullanici = new Kullanici();
+	    		kullanici.setId(kullaniciId);
+	    		favoriler.setKullanici(kullanici);
+	    		favoriDizilerRepository.save(favoriler);
 	 }
   }
 

@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.AllArgsConstructor;
-import proje.filmSitesi.dao.DiziCategoryDao;
 import proje.filmSitesi.requests.category.CreateDiziCategoryRequest;
 import proje.filmSitesi.requests.category.UpdateDiziCategoryRequest;
 import proje.filmSitesi.responses.category.AdminGetAllDiziCategoryResponse;
 import proje.filmSitesi.responses.category.GetAllDiziCategoryResponse;
 import proje.filmSitesi.responses.category.GetDiziByCategoryResponse;
+import proje.filmSitesi.service.interfaces.DiziCategoryDao;
 
 @RestController
 @RequestMapping("/dizi-categori")  

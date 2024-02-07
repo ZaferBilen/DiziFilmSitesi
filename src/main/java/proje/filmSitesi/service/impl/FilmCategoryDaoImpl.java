@@ -1,4 +1,4 @@
-package proje.filmSitesi.dao;
+package proje.filmSitesi.service.impl;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,6 +16,7 @@ import proje.filmSitesi.responses.category.AdminGetAllCategoryResponse;
 import proje.filmSitesi.responses.category.GetAllFilmCategoryResponse;
 import proje.filmSitesi.responses.category.GetFilmByCategoryResponse;
 import proje.filmSitesi.rules.FilmCategoryBusinessRules;
+import proje.filmSitesi.service.interfaces.FilmCategoryDao;
 
 @Service
 @AllArgsConstructor

@@ -16,7 +16,7 @@ public class FavoriFilmler {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int Id;
 
     @ManyToOne
     @JoinColumn(name = "kullanici_id")

@@ -1,4 +1,4 @@
-package proje.filmSitesi.util;
+package proje.filmSitesi.core.utilities;
 
 import java.util.HashMap;
 import java.util.Map;

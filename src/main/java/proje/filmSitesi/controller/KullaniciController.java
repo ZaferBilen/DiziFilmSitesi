@@ -18,11 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import proje.filmSitesi.dao.KullaniciDao;
 import proje.filmSitesi.model.Kullanici;
 import proje.filmSitesi.repository.KullaniciRepository;
 import proje.filmSitesi.requests.kullanici.KullaniciGirisRequests;
 import proje.filmSitesi.requests.kullanici.KullaniciKayitRequests;
+import proje.filmSitesi.service.interfaces.KullaniciDao;
 
 @RestController
 @RequestMapping

@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.AllArgsConstructor;
-import proje.filmSitesi.dao.FavoriFilmlerDao;
 import proje.filmSitesi.requests.favoriler.AddFavoriFilmRequest;
 import proje.filmSitesi.requests.favoriler.RemoveFavoriFilmRequest;
 import proje.filmSitesi.responses.favoriler.GeKullaniciFavoriteResponseFilm;
+import proje.filmSitesi.service.interfaces.FavoriFilmlerDao;
 
 @RestController
 @RequestMapping("/favori-filmler")

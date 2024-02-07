@@ -19,12 +19,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import proje.filmSitesi.dao.FilmDao;
 import proje.filmSitesi.requests.film.CreateFilmRequest;
 import proje.filmSitesi.requests.film.UpdateFilmRequest;
 import proje.filmSitesi.responses.film.AdminGetAllFilmsResponse;
 import proje.filmSitesi.responses.film.GetAllFilmsResponse;
 import proje.filmSitesi.responses.film.GetFilmByNameResponse;
+import proje.filmSitesi.service.interfaces.FilmDao;
 
 @RestController
 @RequestMapping("/film")

@@ -16,14 +16,14 @@ public class FavoriDiziler {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int Id;
 
     @ManyToOne
     @JoinColumn(name = "kullanici_id")
     private Kullanici kullanici;
     
     @ManyToOne
-    @JoinColumn(name = "dizi_id", unique = true)
+    @JoinColumn(name = "dizi_id")
     private Dizi dizi;
     
 }

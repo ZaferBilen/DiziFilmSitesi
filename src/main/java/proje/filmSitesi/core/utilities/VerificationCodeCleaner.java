@@ -1,4 +1,4 @@
-package proje.filmSitesi.dao;
+package proje.filmSitesi.core.utilities;
 
 import java.time.LocalDateTime;
 import java.util.List;

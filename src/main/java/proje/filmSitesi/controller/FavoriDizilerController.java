@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.AllArgsConstructor;
-import proje.filmSitesi.dao.FavoriDizilerDao;
 import proje.filmSitesi.requests.favoriler.AddFavoriDiziRequest;
 import proje.filmSitesi.requests.favoriler.RemoveFavoriDiziRequest;
 import proje.filmSitesi.responses.favoriler.GeKullaniciFavoriteResponseDizi;
+import proje.filmSitesi.service.interfaces.FavoriDizilerDao;
 
 @RestController
 @RequestMapping("/favori-diziler")

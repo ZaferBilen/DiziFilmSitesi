@@ -1,4 +1,4 @@
-package proje.filmSitesi.dao;
+package proje.filmSitesi.service.interfaces;
 
 public interface EmailDao {
 

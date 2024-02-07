@@ -41,5 +41,8 @@ public class Dizi {
     @ManyToOne
     @JoinColumn(name = "dizi_category_id")
     private DiziCategory diziCategory;
+    
+    @OneToMany(mappedBy = "dizi")
+    private List<FavoriDiziler> favoriDizilerList;
 
 }

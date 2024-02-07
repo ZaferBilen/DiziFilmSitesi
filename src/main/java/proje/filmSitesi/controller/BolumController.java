@@ -19,11 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.AllArgsConstructor;
-import proje.filmSitesi.dao.BolumDao;
 import proje.filmSitesi.requests.dizi.AddBolumRequest;
 import proje.filmSitesi.requests.dizi.UpdateBolumRequest;
 import proje.filmSitesi.responses.dizi.AdminGetAllBolumResponse;
 import proje.filmSitesi.responses.dizi.GetAllBolumResponse;
+import proje.filmSitesi.service.interfaces.BolumDao;
 
 @RestController
 @RequestMapping("/bolum")  

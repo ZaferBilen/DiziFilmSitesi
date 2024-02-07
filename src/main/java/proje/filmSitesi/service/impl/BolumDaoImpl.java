@@ -1,4 +1,4 @@
-package proje.filmSitesi.dao;
+package proje.filmSitesi.service.impl;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,6 +15,7 @@ import proje.filmSitesi.requests.dizi.AddBolumRequest;
 import proje.filmSitesi.requests.dizi.UpdateBolumRequest;
 import proje.filmSitesi.responses.dizi.AdminGetAllBolumResponse;
 import proje.filmSitesi.responses.dizi.GetAllBolumResponse;
+import proje.filmSitesi.service.interfaces.BolumDao;
 
 @Service
 @AllArgsConstructor
