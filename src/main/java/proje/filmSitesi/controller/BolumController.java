@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -83,7 +83,7 @@ public class BolumController {
     
     @PostMapping("/admin/{bolumId}/upload-bolum")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<String> uploadBolum(@PathVariable Long bolumId, @RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> uploadBolum(@PathVariable Long bolumId, @RequestPart("file") MultipartFile file) {
         if (file.isEmpty()) {
             return ResponseEntity.badRequest().body("Dosya seçilmedi.");
         }

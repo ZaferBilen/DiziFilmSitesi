@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -85,7 +85,7 @@ public class DiziController {
 	 
 	 @PostMapping("/admin/{diziId}/upload-kapak")
 	 @PreAuthorize("hasAuthority('ADMIN')")
-	 public ResponseEntity<String> uploadKapak(@PathVariable Long diziId, @RequestParam("file") MultipartFile file) {
+	 public ResponseEntity<String> uploadKapak(@PathVariable Long diziId, @RequestPart("file") MultipartFile file) {
 	     if (file.isEmpty()) {
 	          return ResponseEntity.badRequest().body("Dosya seçilmedi.");
 	        }
@@ -109,7 +109,7 @@ public class DiziController {
 	 
 	 @PostMapping("/admin/{diziId}/upload-fragman")
 	 @PreAuthorize("hasAuthority('ADMIN')")
-	 public ResponseEntity<String> uploadFragman(@PathVariable Long diziId, @RequestParam("file") MultipartFile file) {
+	 public ResponseEntity<String> uploadFragman(@PathVariable Long diziId, @RequestPart("file") MultipartFile file) {
 	     if (file.isEmpty()) {
 	          return ResponseEntity.badRequest().body("Dosya seçilmedi.");
 	        }

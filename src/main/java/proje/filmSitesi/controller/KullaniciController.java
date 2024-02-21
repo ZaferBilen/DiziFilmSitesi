@@ -1,5 +1,7 @@
 package proje.filmSitesi.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,21 +11,23 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import proje.filmSitesi.model.Kullanici;
 import proje.filmSitesi.repository.KullaniciRepository;
+import proje.filmSitesi.requests.kullanici.EmailRequest;
 import proje.filmSitesi.requests.kullanici.KullaniciGirisRequests;
 import proje.filmSitesi.requests.kullanici.KullaniciKayitRequests;
 import proje.filmSitesi.service.interfaces.KullaniciDao;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping
 public class KullaniciController {
@@ -43,10 +47,11 @@ public class KullaniciController {
     }
 	
 	@PostMapping("/kullanici/kod")
-    public ResponseEntity<Object> dogrulamaKodu(@RequestParam String email){
-		kullaniciDao.dogrulamaKoduGonder(email);
-        return ResponseEntity.ok("Doğrulama kodu e-postanıza gönderildi.");
-    }
+	public ResponseEntity<Object> dogrulamaKodu(@RequestBody EmailRequest emailRequest) {
+	    String email = emailRequest.getEmail();
+	    kullaniciDao.dogrulamaKoduGonder(email);
+	    return ResponseEntity.ok(Map.of("message","Doğrulama kodu e-postanıza gönderildi."));
+	}
 	
 	@PostMapping("/kullanici/kayıt")
 	public ResponseEntity<Object> kullaniciKaydi(@RequestBody KullaniciKayitRequests kullaniciKayitRequests) {
@@ -57,7 +62,7 @@ public class KullaniciController {
 
 	    boolean basarili = kullaniciDao.kullaniciKayit(kullaniciKayitRequests);
 	    if (basarili) {
-	        return ResponseEntity.ok("Kullanıcı kaydı başarıyla tamamlandı.");
+	        return ResponseEntity.ok("Kullanıcı kaydı başarıyla tamamlandı."); //
 	    } else {
 	        return ResponseEntity.status(400).body("Geçersiz doğrulama kodu veya kayıt başarısız oldu.");
 	    }
@@ -79,8 +84,7 @@ public class KullaniciController {
 	    return new ResponseEntity<>("Kullanıcı başarıyla giriş yaptı", HttpStatus.OK);
 	}
 	
-	
-	
+
 	@DeleteMapping("/kullanici/sil/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<String> deleteUser(@PathVariable Long id) {
@@ -101,6 +105,7 @@ public class KullaniciController {
 	    Kullanici kullanici = kullaniciRepository.findByEmail(userDetails.getUsername()).orElseThrow();
 	    return kullanici.getId();
 	}
+	
 	@PostMapping("/cikis")
 	public ResponseEntity<String> cikis() {
 	    kullaniciDao.cikis();
