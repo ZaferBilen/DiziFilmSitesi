@@ -4,6 +4,8 @@ import java.util.List;
 
 import proje.filmSitesi.requests.kullanici.KullaniciGirisRequests;
 import proje.filmSitesi.requests.kullanici.KullaniciKayitRequests;
+import proje.filmSitesi.responses.kullanici.AuthenticationGirisResponse;
+import proje.filmSitesi.responses.kullanici.AuthenticationResponse;
 import proje.filmSitesi.responses.kullanici.GetAllKullaniciResponse;
 
 public interface KullaniciDao {
@@ -12,9 +14,9 @@ public interface KullaniciDao {
 	
 	boolean sifreKural(String sifre);
 	
-	boolean kullaniciKayit(KullaniciKayitRequests kullaniciKayitRequests);
+	public AuthenticationResponse kullaniciKayit(KullaniciKayitRequests kullaniciKayitRequests);
 	
-	boolean kullaniciGiris(KullaniciGirisRequests kullaniciGirisRequests);
+	public AuthenticationGirisResponse authenticate(KullaniciGirisRequests KullaniciGirisRequests);	
 	
 	List<GetAllKullaniciResponse> getAllUsers();
 	

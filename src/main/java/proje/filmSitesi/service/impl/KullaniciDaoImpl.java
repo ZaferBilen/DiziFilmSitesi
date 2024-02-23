@@ -5,8 +5,9 @@ import java.util.List;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,10 @@ import proje.filmSitesi.model.Kullanici.UserRole;
 import proje.filmSitesi.repository.KullaniciRepository;
 import proje.filmSitesi.requests.kullanici.KullaniciGirisRequests;
 import proje.filmSitesi.requests.kullanici.KullaniciKayitRequests;
+import proje.filmSitesi.responses.kullanici.AuthenticationGirisResponse;
+import proje.filmSitesi.responses.kullanici.AuthenticationResponse;
 import proje.filmSitesi.responses.kullanici.GetAllKullaniciResponse;
+import proje.filmSitesi.service.JwtService;
 import proje.filmSitesi.service.interfaces.EmailDao;
 import proje.filmSitesi.service.interfaces.KullaniciDao;
 
@@ -30,6 +34,11 @@ public class KullaniciDaoImpl implements KullaniciDao{
 	private PasswordEncoder passwordEncoder;
     
     private EmailDao emailDao;
+    
+    private final JwtService jwtService;
+    
+    private final AuthenticationManager authenticationManager;
+    
     
 	private String generateVerificationCode() {
         return UUID.randomUUID().toString().substring(0, 6); 
@@ -50,7 +59,7 @@ public class KullaniciDaoImpl implements KullaniciDao{
 	}
 
 	@Override
-	public boolean kullaniciKayit(KullaniciKayitRequests kullaniciKayitRequests) {
+	public AuthenticationResponse kullaniciKayit(KullaniciKayitRequests kullaniciKayitRequests) {
 	    String email = kullaniciKayitRequests.getEmail();
 	    String dogrulamaKodu = kullaniciKayitRequests.getGeciciDogrulamaKodu();
 	    String sifre = kullaniciKayitRequests.getSifre();
@@ -61,7 +70,7 @@ public class KullaniciDaoImpl implements KullaniciDao{
 	    String cachedCode = DogrulamaKoduOnBellegi.getVerificationCode(email);
 
 	    if (cachedCode == null || !cachedCode.equals(dogrulamaKodu)) {
-	        return false;
+	        
 	    }
 
 	    DogrulamaKoduOnBellegi.removeVerificationCode(email);
@@ -73,9 +82,32 @@ public class KullaniciDaoImpl implements KullaniciDao{
 	    kullanici.setRole(role);
 
 	    kullaniciRepository.save(kullanici);
-	    return true;
+	    
+	    String jwt = jwtService.generateToken(kullanici);
+	    
+	    return new AuthenticationResponse(jwt);
 	}
-
+	
+	
+	public AuthenticationGirisResponse authenticate(KullaniciGirisRequests kullaniciGirisRequests) {
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                		kullaniciGirisRequests.getEmail(),
+                		kullaniciGirisRequests.getSifre()
+                )
+        );
+        
+        Kullanici kullanici = kullaniciRepository.findByEmail(kullaniciGirisRequests.getEmail()).orElseThrow();
+        String jwt = jwtService.generateToken(kullanici);
+        Long id = kullanici.getId(); 
+        String name = kullanici.getName();
+        String surname = kullanici.getSurname();
+        String email = kullanici.getEmail();
+        UserRole role = kullanici.getRole();
+        
+        return new AuthenticationGirisResponse(jwt, id, name, surname, email, role);
+	
+	}
 	@Override
 	public List<GetAllKullaniciResponse> getAllUsers(){
 		List<Kullanici> users = kullaniciRepository.findAll();
@@ -97,21 +129,6 @@ public class KullaniciDaoImpl implements KullaniciDao{
 		return userResponse;
 		
 	}
-
-	@Override
-	public boolean kullaniciGiris(KullaniciGirisRequests kullaniciGirisRequests) {
-		 String email = kullaniciGirisRequests.getEmail();
-		    String sifre = kullaniciGirisRequests.getSifre();
-		    Kullanici kullanici = kullaniciRepository.findByEmail(email).orElse(null);
-
-		    if (kullanici != null) {    
-		    	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		        if (passwordEncoder.matches(sifre, kullanici.getSifre())) {
-		            return true;
-		        }
-		    }
-		    return false;
-		}
 
 	@Override
 	public void delete(Long id) {

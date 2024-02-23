@@ -13,11 +13,14 @@ import proje.filmSitesi.repository.KullaniciRepository;
 
 @Configuration
 public class KullaniciDetailService implements UserDetailsService {
-    @Autowired
+    
+	@Autowired
     private KullaniciRepository kullaniciRepository;
+	
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Optional<Kullanici> user = kullaniciRepository.findByEmail(email);
         return user.map(KullaniciInfoDetails::new).orElseThrow(()->new UsernameNotFoundException("Kullanıcı bulunamadı."));
+        
     }
 }

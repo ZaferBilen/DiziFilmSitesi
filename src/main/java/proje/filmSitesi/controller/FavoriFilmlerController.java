@@ -3,6 +3,7 @@ package proje.filmSitesi.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,7 @@ import proje.filmSitesi.requests.favoriler.RemoveFavoriFilmRequest;
 import proje.filmSitesi.responses.favoriler.GeKullaniciFavoriteResponseFilm;
 import proje.filmSitesi.service.interfaces.FavoriFilmlerDao;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/favori-filmler")
 @AllArgsConstructor
