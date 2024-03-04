@@ -3,6 +3,7 @@ package proje.filmSitesi.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,29 +37,29 @@ public class BolumController {
 	
 	@PostMapping("/admin/addbolum")
 	@PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<String> addBolum(AddBolumRequest addBolumRequest){
+    public ResponseEntity<Object> addBolum(AddBolumRequest addBolumRequest){  
 		
 		bolumDao.addBolum(addBolumRequest);
-		return ResponseEntity.ok("Bölüm yüklendi.");
+		return ResponseEntity.ok(Map.of("message","Bölüm yüklendi."));
 		
 	}
 	
 	@PutMapping("/admin/updatebolum")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<String> updateBolum(@RequestBody UpdateBolumRequest updateBolumRequest) {
+    public ResponseEntity<Object> updateBolum(@RequestBody UpdateBolumRequest updateBolumRequest) {		
         
 		bolumDao.updateBolum(updateBolumRequest);
-        return ResponseEntity.ok("Bölüm güncellendi.");
+        return ResponseEntity.ok(Map.of("message","Bölüm güncellendi."));
         
     }
 
 	
     @DeleteMapping("/admin/deletebolum/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<String> deleteBolum(@PathVariable Long id) {
+    public ResponseEntity<Object> deleteBolum(@PathVariable Long id) {		
        
     	bolumDao.deleteBolum(id);
-        return ResponseEntity.ok("Bölüm silindi.");
+        return ResponseEntity.ok(Map.of("message","Bölüm silindi."));
         
     }
     
@@ -85,9 +86,9 @@ public class BolumController {
     
     @PostMapping("/admin/{bolumId}/upload-bolum")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<String> uploadBolum(@PathVariable Long bolumId, @RequestPart("file") MultipartFile file) {
+    public ResponseEntity<Object> uploadBolum(@PathVariable Long bolumId, @RequestPart("file") MultipartFile file) {		
         if (file.isEmpty()) {
-            return ResponseEntity.badRequest().body("Dosya seçilmedi.");
+            return ResponseEntity.badRequest().body(Map.of("error", "Dosya seçilmedi."));
         }
 
         try {
@@ -100,9 +101,9 @@ public class BolumController {
             File dest = new File(filePath);
             file.transferTo(dest);
 
-            return ResponseEntity.ok("Bölüm dosyası başarıyla yüklendi: " + fileName);
+            return ResponseEntity.ok(Map.of("message", "Bölüm dosyası başarıyla yüklendi: " + fileName));
         } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Dosya yüklenirken bir hata oluştu.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Dosya yüklenirken bir hata oluştu."));
         }
     }
     

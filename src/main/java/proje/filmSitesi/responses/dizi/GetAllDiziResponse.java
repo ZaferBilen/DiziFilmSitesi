@@ -1,5 +1,7 @@
 package proje.filmSitesi.responses.dizi;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,4 +18,6 @@ public class GetAllDiziResponse {
 	private String konu;
 	
 	private String diziCategoryName;
+	
+	private List<DiziBolumleriResponse> bolum;
 }

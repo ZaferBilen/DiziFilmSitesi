@@ -1,6 +1,7 @@
 package proje.filmSitesi.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +33,7 @@ public class FilmCategoryController {
 	private FilmCategoryDao filmCategoryDao;
 		
 	@GetMapping("/getallcategory")
-	public List<GetAllFilmCategoryResponse> getAllFilmCategoryResponse(){
+	public List<GetAllFilmCategoryResponse> getAllFilmCategoryResponse(){	
 		
 		return filmCategoryDao.getAllFilmCategoryResponse();
 	}
@@ -57,27 +58,27 @@ public class FilmCategoryController {
 	}
 	
 	
-	@PostMapping("/admin/add-film-category")
+	@PostMapping("/admin/add-film-category")  
 	@PreAuthorize("hasAuthority('ADMIN')")
-	public ResponseEntity<String> add(@RequestBody CreateFilmCategoryRequest createFilmCategoryRequest) {
+	public ResponseEntity<Object> add(@RequestBody CreateFilmCategoryRequest createFilmCategoryRequest) {  
 		filmCategoryDao.add(createFilmCategoryRequest);
-        return ResponseEntity.ok("Film Kategorisi eklendi.");
+        return ResponseEntity.ok(Map.of("message" ,"Film Kategorisi eklendi."));
     }
 
 	
 	@PutMapping("/admin/update-film-category")
 	@PreAuthorize("hasAuthority('ADMIN')")
-	public ResponseEntity<String> update(@RequestBody UpdateFilmCategoryRequest updateFilmCategoryRequest) {
+	public ResponseEntity<Object> update(@RequestBody UpdateFilmCategoryRequest updateFilmCategoryRequest) {			
 		filmCategoryDao.update(updateFilmCategoryRequest);
-        return ResponseEntity.ok("Film Kategorisi güncellendi");
+        return ResponseEntity.ok(Map.of("message","Film Kategorisi güncellendi"));
     }
 	
 	
 	@DeleteMapping("/admin/delete-film-category/{id}")
 	@PreAuthorize("hasAuthority('ADMIN')")
-	 public ResponseEntity<String> delete(@PathVariable int id){
+	 public ResponseEntity<Object> delete(@PathVariable int id){				
 		filmCategoryDao.delete(id);
-		return ResponseEntity.ok("Kategori silindi." );
+		return ResponseEntity.ok(Map.of("message","Kategori silindi." ));
 	}
 	
 

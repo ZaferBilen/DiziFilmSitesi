@@ -72,16 +72,16 @@ public class KullaniciController {
 
 	@DeleteMapping("/kullanici/sil/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<String> deleteUser(@PathVariable Long id) {
+    public ResponseEntity<Object> deleteUser(@PathVariable Long id) {				
 		kullaniciDao.delete(id);
-        return ResponseEntity.ok("Kullanıcı silindi");
+        return ResponseEntity.ok(Map.of("message","Kullanıcı silindi"));
     }
 	
 	@DeleteMapping("/kullanici/hesap-sil")
-    public ResponseEntity<String> deleteMyAccount() {
+    public ResponseEntity<Object> deleteMyAccount() {					
         Long currentUserId = getCurrentUserId();
         kullaniciDao.delete(currentUserId);
-        return ResponseEntity.ok("Hesabınız başarıyla silindi");
+        return ResponseEntity.ok(Map.of("message","Hesabınız başarıyla silindi"));
     }
 	
 	private Long getCurrentUserId() {
@@ -91,9 +91,9 @@ public class KullaniciController {
 	    return kullanici.getId();
 	}
 	
-	@PostMapping("/cikis")
-	public ResponseEntity<String> cikis() {
+	@PostMapping("/cikis")	
+	public ResponseEntity<Object> cikis() {						
 	    kullaniciDao.cikis();
-	    return ResponseEntity.ok("Çıkış başarıyla gerçekleşti");
+	    return ResponseEntity.ok(Map.of("message","Çıkış başarıyla gerçekleşti"));
 	}
 }

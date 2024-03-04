@@ -3,6 +3,7 @@ package proje.filmSitesi.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -60,76 +61,73 @@ public class DiziController {
 	 
 	 @PostMapping("/admin/add-dizi")
 	 @PreAuthorize("hasAuthority('ADMIN')")
-	 public ResponseEntity<String> addDizi(@RequestBody CreateDiziRequest createDiziRequest){
+	 public ResponseEntity<Object> addDizi(@RequestBody CreateDiziRequest createDiziRequest){			
 			
 		diziDao.add(createDiziRequest);
-		return ResponseEntity.ok("Dizi eklendi.");
+		return ResponseEntity.ok(Map.of("message", "Dizi eklendi."));
 		}
 
 	 @PutMapping("/admin/update-dizi")
 	 @PreAuthorize("hasAuthority('ADMIN')")
-	 public ResponseEntity<String> updateDizi(@RequestBody UpdateDiziRequest updateDiziRequest){
+	 public ResponseEntity<Object> updateDizi(@RequestBody UpdateDiziRequest updateDiziRequest){			
 			
 		 diziDao.update(updateDiziRequest);
-		 return ResponseEntity.ok("Dizi güncellendi.");
+		 return ResponseEntity.ok(Map.of("message", "Dizi güncellendi."));
 		 
 		}
 	 
 	 
 	 @DeleteMapping("/admin/deletedizi/{id}")
 	 @PreAuthorize("hasAuthority('ADMIN')")
-	 public ResponseEntity<String> deleteDizi(@PathVariable Long id){
+	 public ResponseEntity<Object> deleteDizi(@PathVariable Long id){			
 			
 		 diziDao.delete(id);
-		 return ResponseEntity.ok("Dizi silindi.");
+		 return ResponseEntity.ok(Map.of("message", "Dizi silindi."));
 		 
 		}
 	 
 	 @PostMapping("/admin/{diziId}/upload-kapak")
 	 @PreAuthorize("hasAuthority('ADMIN')")
-	 public ResponseEntity<String> uploadKapak(@PathVariable Long diziId, @RequestPart("file") MultipartFile file) {
+	 public ResponseEntity<Object> uploadKapak(@PathVariable Long diziId, @RequestPart("file") MultipartFile file) { 		
 	     if (file.isEmpty()) {
-	          return ResponseEntity.badRequest().body("Dosya seçilmedi.");
-	        }
+	         return ResponseEntity.badRequest().body(Map.of("error", "Dosya seçilmedi."));
+	     }
 
-	        try {
-	            String uploadDir = "C:\\Users\\Zafer\\Desktop\\Upload";
-	            String fileName = file.getOriginalFilename();
-	            String filePath = uploadDir + File.separator + fileName;
-	            diziDao.uploadKapak(diziId, filePath); 
-	            File dest = new File(filePath);
-	            file.transferTo(dest);
+	     try {
+	         String uploadDir = "C:\\Users\\Zafer\\Desktop\\Upload";
+	         String fileName = file.getOriginalFilename();
+	         String filePath = uploadDir + File.separator + fileName;
+	         diziDao.uploadKapak(diziId, filePath); 
+	         File dest = new File(filePath);
+	         file.transferTo(dest);
 
-
-	            return ResponseEntity.ok("Dizi kapağı başarıyla yüklendi: " + fileName);
-	        } catch (IOException e) {
-	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Dosya yüklenirken bir hata oluştu.");
-	        }
-	    }
-	    
+	         return ResponseEntity.ok(Map.of("status", "success", "message", "Dizi kapağı başarıyla yüklendi: " + fileName));
+	     } catch (IOException e) {
+	         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("status", "error", "message", "Dosya yüklenirken bir hata oluştu."));
+	     }
+	 }
 	
 	 
 	 @PostMapping("/admin/{diziId}/upload-fragman")
 	 @PreAuthorize("hasAuthority('ADMIN')")
-	 public ResponseEntity<String> uploadFragman(@PathVariable Long diziId, @RequestPart("file") MultipartFile file) {
+	 public ResponseEntity<Object> uploadFragman(@PathVariable Long diziId, @RequestPart("file") MultipartFile file) {  
 	     if (file.isEmpty()) {
-	          return ResponseEntity.badRequest().body("Dosya seçilmedi.");
-	        }
+	         return ResponseEntity.badRequest().body(Map.of("error", "Dosya seçilmedi."));
+	     }
 
-	        try {
-	            String uploadDir = "C:\\Users\\Zafer\\Desktop\\Upload";
-	            String fileName = file.getOriginalFilename();
-	            String filePath = uploadDir + File.separator + fileName;
-	            diziDao.uploadFragman(diziId, filePath); 
-	            File dest = new File(filePath);
-	            file.transferTo(dest);
-   
+	     try {
+	         String uploadDir = "C:\\Users\\Zafer\\Desktop\\Upload";
+	         String fileName = file.getOriginalFilename();
+	         String filePath = uploadDir + File.separator + fileName;
+	         diziDao.uploadFragman(diziId, filePath); 
+	         File dest = new File(filePath);
+	         file.transferTo(dest);
 
-	            return ResponseEntity.ok("Dizi fragmanı başarıyla yüklendi: " + fileName);
-	        } catch (IOException e) {
-	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Dosya yüklenirken bir hata oluştu.");
-	        }
-	    }
+	         return ResponseEntity.ok(Map.of("message", "Dizi fragmanı başarıyla yüklendi: " + fileName));
+	     } catch (IOException e) {
+	         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Dosya yüklenirken bir hata oluştu."));
+	     }
+	 }
 	 
 	 
 	 

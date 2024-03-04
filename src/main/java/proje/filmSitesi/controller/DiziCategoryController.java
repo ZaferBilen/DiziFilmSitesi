@@ -1,6 +1,7 @@
 package proje.filmSitesi.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -59,25 +60,25 @@ public class DiziCategoryController {
 	
 	@PostMapping("/admin/add-dizi-category")
 	@PreAuthorize("hasAuthority('ADMIN')")
-	public ResponseEntity<String> add(@RequestBody CreateDiziCategoryRequest createDiziCategoryRequest) {
+	public ResponseEntity<Object> add(@RequestBody CreateDiziCategoryRequest createDiziCategoryRequest) {  		
 		diziCategoryDao.add(createDiziCategoryRequest);
-        return ResponseEntity.ok("Dizi Kategorisi eklendi.");
+        return ResponseEntity.ok(Map.of("message","Dizi Kategorisi eklendi."));
     }
 	
 	
 	@PutMapping("/admin/add-dizi-category")
 	@PreAuthorize("hasAuthority('ADMIN')")
-	public ResponseEntity<String> update(@RequestBody UpdateDiziCategoryRequest updateDiziCategoryRequest) {
+	public ResponseEntity<Object> update(@RequestBody UpdateDiziCategoryRequest updateDiziCategoryRequest) {			
 		diziCategoryDao.update(updateDiziCategoryRequest);
-        return ResponseEntity.ok("Dizi Kategorisi güncellendi.");
+        return ResponseEntity.ok(Map.of("message","Dizi Kategorisi güncellendi."));
     }
 	
 	
 	@DeleteMapping("/admin/delete-dizi-category/{id}")
 	@PreAuthorize("hasAuthority('ADMIN')")
-	 public ResponseEntity<String> delete(@PathVariable int id){
+	 public ResponseEntity<Object> delete(@PathVariable int id){	
 		diziCategoryDao.delete(id);
-		return ResponseEntity.ok("Kategori silindi." );
+		return ResponseEntity.ok(Map.of("message","Kategori silindi."));
 	}
 
 }

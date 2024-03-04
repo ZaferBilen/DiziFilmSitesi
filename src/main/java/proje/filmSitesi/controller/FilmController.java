@@ -3,6 +3,7 @@ package proje.filmSitesi.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -63,36 +64,36 @@ public class FilmController {
 	 
 	@PostMapping("/admin/addfilm")
 	@PreAuthorize("hasAuthority('ADMIN')")
-	public ResponseEntity<String> addFilm(@RequestBody CreateFilmRequest createFilmRequest){
+	public ResponseEntity<Object> addFilm(@RequestBody CreateFilmRequest createFilmRequest){			
 		
 		filmDao.add(createFilmRequest);
-		return ResponseEntity.ok("Film eklendi.");
+		return ResponseEntity.ok(Map.of("message","Film eklendi."));
 	}
 	
 	
 	@PutMapping("/admin/updatefilm")
 	@PreAuthorize("hasAuthority('ADMIN')")
-	public ResponseEntity<String> updateilm(@RequestBody UpdateFilmRequest updateFilmRequest){
+	public ResponseEntity<Object> updateilm(@RequestBody UpdateFilmRequest updateFilmRequest){				
 		
 		filmDao.update(updateFilmRequest);
-		return ResponseEntity.ok("Film güncellendi.");
+		return ResponseEntity.ok(Map.of("message","Film güncellendi."));
 	}
 	
     @DeleteMapping("/admin/deletefilm/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-	public ResponseEntity<String> deleteFilm(@PathVariable Long id){
+	public ResponseEntity<Object> deleteFilm(@PathVariable Long id){				
 		
 		filmDao.delete(id);
-		return ResponseEntity.ok("Film silindi.");
+		return ResponseEntity.ok(Map.of("message","Film silindi."));
 	}
     
     
     
     @PostMapping("/admin/{filmId}/upload-film")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<String> uploadFilm(@PathVariable Long filmId, @RequestPart("file") MultipartFile file) {
+    public ResponseEntity<Object> uploadFilm(@PathVariable Long filmId, @RequestPart("file") MultipartFile file) {			
         if (file.isEmpty()) {
-            return ResponseEntity.badRequest().body("Dosya seçilmedi.");
+            return ResponseEntity.badRequest().body(Map.of("error", "Dosya seçilmedi."));
         }
 
         try {
@@ -103,10 +104,9 @@ public class FilmController {
             File dest = new File(filePath);
             file.transferTo(dest);
 
-
-            return ResponseEntity.ok("Film başarıyla yüklendi: " + fileName);
+            return ResponseEntity.ok(Map.of("message", "Film başarıyla yüklendi: " + fileName));
         } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Dosya yüklenirken bir hata oluştu.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Dosya yüklenirken bir hata oluştu."));
         }
     }
     
@@ -114,9 +114,9 @@ public class FilmController {
     
     @PostMapping("/admin/{filmId}/upload-kapak")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<String> uploadKapak(@PathVariable Long filmId, @RequestPart("file") MultipartFile file) {
+    public ResponseEntity<Object> uploadKapak(@PathVariable Long filmId, @RequestPart("file") MultipartFile file) {				
         if (file.isEmpty()) {
-            return ResponseEntity.badRequest().body("Dosya seçilmedi.");
+            return ResponseEntity.badRequest().body(Map.of("error", "Dosya seçilmedi."));
         }
 
         try {
@@ -127,9 +127,9 @@ public class FilmController {
             File dest = new File(filePath);
             file.transferTo(dest);
 
-            return ResponseEntity.ok("Film kapağı başarıyla yüklendi: " + fileName);
+            return ResponseEntity.ok(Map.of("message", "Film kapağı başarıyla yüklendi: " + fileName));
         } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Dosya yüklenirken bir hata oluştu.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Dosya yüklenirken bir hata oluştu."));
         }
     }
     
@@ -137,9 +137,9 @@ public class FilmController {
     
     @PostMapping("/admin/{filmId}/upload-fragman")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<String> uploadFragman(@PathVariable Long filmId, @RequestPart("file") MultipartFile file) {
+    public ResponseEntity<Object> uploadFragman(@PathVariable Long filmId, @RequestPart("file") MultipartFile file) {			
         if (file.isEmpty()) {
-            return ResponseEntity.badRequest().body("Dosya seçilmedi.");
+            return ResponseEntity.badRequest().body(Map.of("error", "Dosya seçilmedi."));
         }
 
         try {
@@ -150,9 +150,9 @@ public class FilmController {
             File dest = new File(filePath);
             file.transferTo(dest);
 
-            return ResponseEntity.ok("Film fragmanı başarıyla yüklendi: " + fileName);
+            return ResponseEntity.ok(Map.of("message", "Film fragmanı başarıyla yüklendi: " + fileName));
         } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Dosya yüklenirken bir hata oluştu.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Dosya yüklenirken bir hata oluştu."));
         }
     }
 

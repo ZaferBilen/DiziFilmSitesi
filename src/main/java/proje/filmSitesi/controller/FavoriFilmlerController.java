@@ -1,6 +1,7 @@
 package proje.filmSitesi.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -27,20 +28,20 @@ public class FavoriFilmlerController {
 
 	
     @PostMapping("/addFavoriFilm")
-    public ResponseEntity<String> addFavoriFilm(@RequestBody AddFavoriFilmRequest addFavoriFilmRequest) {
+    public ResponseEntity<Object> addFavoriFilm(@RequestBody AddFavoriFilmRequest addFavoriFilmRequest) {			
        
     	favoriFilmlerDao.addFavoriFilm(addFavoriFilmRequest);
-        return ResponseEntity.ok("Film favorilerinize eklendi");
+        return ResponseEntity.ok(Map.of("message","Film favorilerinize eklendi"));
         
     }
 
  
     @DeleteMapping("/removeFavoriteFilm")
-    public ResponseEntity<String> removeFavoriteFilm(@RequestBody RemoveFavoriFilmRequest removeFavoriFilmRequest) {
+    public ResponseEntity<Object> removeFavoriteFilm(@RequestBody RemoveFavoriFilmRequest removeFavoriFilmRequest) {			
 
         favoriFilmlerDao.removeFavoriteFilm(removeFavoriFilmRequest);
         
-        return ResponseEntity.ok("Film favorilerinizden çıkarıldı");
+        return ResponseEntity.ok(Map.of("message","Film favorilerinizden çıkarıldı"));
     }
 
     
