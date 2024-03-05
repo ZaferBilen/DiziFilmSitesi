@@ -66,7 +66,7 @@ public class DiziCategoryController {
     }
 	
 	
-	@PutMapping("/admin/add-dizi-category")
+	@PutMapping("/admin/update-dizi-category")
 	@PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<Object> update(@RequestBody UpdateDiziCategoryRequest updateDiziCategoryRequest) {			
 		diziCategoryDao.update(updateDiziCategoryRequest);

@@ -12,5 +12,7 @@ public class GetAllBolumResponse {
 	private String diziName;
 	
 	private String bolum;
+	
+	private String path;
 
 }

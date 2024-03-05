@@ -49,12 +49,13 @@ public class SecurityConfig {
 	                .authorizeHttpRequests(
 	                		req->req.requestMatchers("/","/swagger-ui/**", "/v3/api-docs/**","/giris" , "/kullanici/kayıt", "/kullanici/kod")
 	                		.permitAll()
-	                		.requestMatchers("/kullanici/sil/{id}","/users/all","/admin/getallfilms","/admin/addfilm","/admin/updatefilm","/admin/{filmId}/upload-film"
-	                				,"/admin/{filmId}/upload-kapak","/admin/{filmId}/upload-fragman","/admin/getallcategories","/admin/add-film-category"
-	                				,"/admin/update-film-category","/admin/getalldizi","/admin/add-dizi","/admin/update-dizi","/admin/deletedizi/{id}"
-	                				,"/admin/{diziId}/upload-kapak","/admin/{diziId}/upload-fragman","/admin/getalldizicategory","/admin/add-dizi-category"
-	                				,"/admin/add-dizi-category","/admin/delete-dizi-category/{id}","/admin/addbolum","/admin/updatebolum"
-	                				,"/admin/deletebolum/{id}","/admin/getallbolums","/admin/{bolumId}/upload-bolum")
+	                		.requestMatchers("/kullanici/sil/{id}","/users/all"
+	                				,"/film/admin/getallfilms","/film/admin/addfilm","/film/admin/updatefilm","/film/admin/deletefilm/{id}"
+	                				,"/film/admin/{filmId}/upload-film","/film/admin/{filmId}/upload-kapak","/film/admin/{filmId}/upload-fragman"
+	                				,"/film-categori/admin/getallcategories","/film-categori/admin/add-film-category","/film-categori/admin/update-film-category","/film-categori/admin/delete-film-category/{id}"
+	                				,"/dizi/admin/getalldizi","/dizi/admin/add-dizi","/dizi/admin/update-dizi","/dizi/admin/deletedizi/{id}","/dizi/admin/{diziId}/upload-kapak","dizi/admin/{diziId}/upload-fragman"
+	                				,"/dizi-categori/admin/getalldizicategory","/dizi-categori/admin/add-dizi-category","/dizi-categori/admin/update-dizi-category","/dizi-categori/admin/delete-dizi-category/{id}"
+	                				,"/bolum/admin/addbolum","/bolum/admin/updatebolum","/bolum/admin/deletebolum/{id}","/bolum/admin/getallbolums","/bolum/admin/{bolumId}/upload-bolum")
 	                		.hasAuthority("ADMIN")
 	                		.anyRequest()
                             .authenticated()

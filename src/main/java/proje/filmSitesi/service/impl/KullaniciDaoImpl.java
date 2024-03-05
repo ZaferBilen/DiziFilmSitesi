@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
 import proje.filmSitesi.core.utilities.DogrulamaKoduOnBellegi;
+import proje.filmSitesi.core.utilities.exception.EmailAlreadyExistsException;
 import proje.filmSitesi.model.Kullanici;
 import proje.filmSitesi.model.Kullanici.UserRole;
 import proje.filmSitesi.repository.KullaniciRepository;
@@ -66,6 +67,11 @@ public class KullaniciDaoImpl implements KullaniciDao{
 	    String name = kullaniciKayitRequests.getName();
 	    String surname = kullaniciKayitRequests.getSurname();
 	    UserRole role = kullaniciKayitRequests.getRole();
+	    
+	    
+	    if (kullaniciRepository.existsByEmail(email)) {
+	        throw new EmailAlreadyExistsException("Bu email adresiyle daha önceden kayıt yapılmış.");
+	    }
 
 	    String cachedCode = DogrulamaKoduOnBellegi.getVerificationCode(email);
 
