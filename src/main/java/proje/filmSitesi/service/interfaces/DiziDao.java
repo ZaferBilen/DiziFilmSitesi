@@ -5,6 +5,7 @@ import java.util.List;
 import proje.filmSitesi.requests.dizi.CreateDiziRequest;
 import proje.filmSitesi.requests.dizi.UpdateDiziRequest;
 import proje.filmSitesi.responses.dizi.AdminGetAllDiziResponse;
+import proje.filmSitesi.responses.dizi.DiziResponse;
 import proje.filmSitesi.responses.dizi.GetAllDiziResponse;
 import proje.filmSitesi.responses.dizi.GetDiziByNameResponse;
 
@@ -16,13 +17,13 @@ public interface DiziDao {
 	
 	GetDiziByNameResponse getByDiziName(String diziName);
 	
-	void add(CreateDiziRequest createDiziRequest);
+	DiziResponse add(CreateDiziRequest createDiziRequest);
 	
-	void update(UpdateDiziRequest updateDiziRequest); 
+	DiziResponse update(UpdateDiziRequest updateDiziRequest); 
 	
-	void delete(Long id);
+	DiziResponse delete(Long id);
 	
-	void uploadKapak(Long diziId , String kapakPath);
+	DiziResponse uploadKapak(Long diziId , String kapakPath);
 	
-	void uploadFragman(Long diziId , String fragmanPath);
+	DiziResponse uploadFragman(Long diziId , String fragmanPath);
 }

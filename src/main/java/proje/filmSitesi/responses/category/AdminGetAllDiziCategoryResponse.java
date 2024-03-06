@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AdminGetAllDiziCategoryResponse {
 
-	private int id;
+	private int dkid;
 	
 	private String name;
 	

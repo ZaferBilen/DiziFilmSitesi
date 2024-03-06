@@ -24,6 +24,7 @@ import lombok.AllArgsConstructor;
 import proje.filmSitesi.requests.dizi.AddBolumRequest;
 import proje.filmSitesi.requests.dizi.UpdateBolumRequest;
 import proje.filmSitesi.responses.dizi.AdminGetAllBolumResponse;
+import proje.filmSitesi.responses.dizi.BolumResponse;
 import proje.filmSitesi.responses.dizi.GetAllBolumResponse;
 import proje.filmSitesi.service.interfaces.BolumDao;
 
@@ -37,10 +38,10 @@ public class BolumController {
 	
 	@PostMapping("/admin/addbolum")
 	@PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Object> addBolum(AddBolumRequest addBolumRequest){  
+    public ResponseEntity<Object> addBolum(@RequestBody AddBolumRequest addBolumRequest){  
 		
-		bolumDao.addBolum(addBolumRequest);
-		return ResponseEntity.ok(Map.of("message","Bölüm yüklendi."));
+		BolumResponse bolumResponse = bolumDao.addBolum(addBolumRequest);
+		return ResponseEntity.ok(Map.of("message","Bölüm yüklendi." ,"bölüm" , bolumResponse));
 		
 	}
 	
@@ -48,8 +49,8 @@ public class BolumController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Object> updateBolum(@RequestBody UpdateBolumRequest updateBolumRequest) {		
         
-		bolumDao.updateBolum(updateBolumRequest);
-        return ResponseEntity.ok(Map.of("message","Bölüm güncellendi."));
+		BolumResponse bolumResponse = bolumDao.updateBolum(updateBolumRequest);
+        return ResponseEntity.ok(Map.of("message","Bölüm güncellendi." ,"bölüm" , bolumResponse));
         
     }
 
@@ -58,8 +59,8 @@ public class BolumController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Object> deleteBolum(@PathVariable Long id) {		
        
-    	bolumDao.deleteBolum(id);
-        return ResponseEntity.ok(Map.of("message","Bölüm silindi."));
+    	BolumResponse bolumResponse = bolumDao.deleteBolum(id);
+        return ResponseEntity.ok(Map.of("message","Bölüm silindi.","bölüm" , bolumResponse));
         
     }
     
@@ -96,12 +97,16 @@ public class BolumController {
             String fileName = file.getOriginalFilename();
             String filePath = uploadDir + File.separator + fileName;
 
-            bolumDao.uploadBolum(bolumId, filePath); 
-
+            BolumResponse bolumResponse = bolumDao.uploadBolum(bolumId, filePath); 
+            
+            if(bolumResponse != null) {
             File dest = new File(filePath);
             file.transferTo(dest);
 
-            return ResponseEntity.ok(Map.of("message", "Bölüm dosyası başarıyla yüklendi: " + fileName));
+            return ResponseEntity.ok(Map.of("message", "Bölüm dosyası başarıyla yüklendi: " + fileName, "dizi" , bolumResponse));
+            }else {
+            	return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("status", "error", "message", "Bölüm bulunamadı.")); 
+            }
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Dosya yüklenirken bir hata oluştu."));
         }

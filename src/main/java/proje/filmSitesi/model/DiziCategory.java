@@ -19,7 +19,7 @@ public class DiziCategory {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private int dkid;
 	
 	private String name;
 	

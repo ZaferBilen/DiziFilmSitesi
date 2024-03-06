@@ -19,7 +19,7 @@ public class FilmCategory {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private int fkid;
 	
 	private String name;
 	

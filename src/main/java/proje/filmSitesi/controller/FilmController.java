@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import proje.filmSitesi.requests.film.CreateFilmRequest;
 import proje.filmSitesi.requests.film.UpdateFilmRequest;
 import proje.filmSitesi.responses.film.AdminGetAllFilmsResponse;
+import proje.filmSitesi.responses.film.FilmResponse;
 import proje.filmSitesi.responses.film.GetAllFilmsResponse;
 import proje.filmSitesi.responses.film.GetFilmByNameResponse;
 import proje.filmSitesi.service.interfaces.FilmDao;
@@ -66,8 +67,8 @@ public class FilmController {
 	@PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<Object> addFilm(@RequestBody CreateFilmRequest createFilmRequest){			
 		
-		filmDao.add(createFilmRequest);
-		return ResponseEntity.ok(Map.of("message","Film eklendi."));
+		FilmResponse filmResponse = filmDao.add(createFilmRequest);
+		return ResponseEntity.ok(Map.of("message","Film eklendi.","film" , filmResponse));
 	}
 	
 	
@@ -75,16 +76,16 @@ public class FilmController {
 	@PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<Object> updateilm(@RequestBody UpdateFilmRequest updateFilmRequest){				
 		
-		filmDao.update(updateFilmRequest);
-		return ResponseEntity.ok(Map.of("message","Film güncellendi."));
+		FilmResponse filmResponse = filmDao.update(updateFilmRequest);
+		return ResponseEntity.ok(Map.of("message","Film güncellendi.","film" , filmResponse));
 	}
 	
     @DeleteMapping("/admin/deletefilm/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<Object> deleteFilm(@PathVariable Long id){				
 		
-		filmDao.delete(id);
-		return ResponseEntity.ok(Map.of("message","Film silindi."));
+    	FilmResponse filmResponse = filmDao.delete(id);
+		return ResponseEntity.ok(Map.of("message","Film silindi.","film" , filmResponse));
 	}
     
     
@@ -100,11 +101,15 @@ public class FilmController {
             String uploadDir = "C:\\Users\\Zafer\\Desktop\\Upload"; 
             String fileName = file.getOriginalFilename();
             String filePath = uploadDir + File.separator + fileName;
-            filmDao.uploadFilm(filmId, filePath);
+            FilmResponse filmResponse = filmDao.uploadFilm(filmId, filePath);
+            if(filmResponse != null ) {
             File dest = new File(filePath);
             file.transferTo(dest);
 
-            return ResponseEntity.ok(Map.of("message", "Film başarıyla yüklendi: " + fileName));
+            return ResponseEntity.ok(Map.of("message", "Film başarıyla yüklendi: " + fileName, "film" , filmResponse));
+            }else {
+            	return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("status", "error", "message", "Film bulunamadı.")); 
+            }
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Dosya yüklenirken bir hata oluştu."));
         }
@@ -123,11 +128,15 @@ public class FilmController {
             String uploadDir = "C:\\Users\\Zafer\\Desktop\\Upload"; 
             String fileName = file.getOriginalFilename();
             String filePath = uploadDir + File.separator + fileName;
-            filmDao.uploadKapak(filmId, filePath);
+            FilmResponse filmResponse = filmDao.uploadKapak(filmId, filePath);
+            if(filmResponse != null ) {
             File dest = new File(filePath);
             file.transferTo(dest);
 
-            return ResponseEntity.ok(Map.of("message", "Film kapağı başarıyla yüklendi: " + fileName));
+            return ResponseEntity.ok(Map.of("message", "Film kapağı başarıyla yüklendi: " + fileName, "film" , filmResponse));
+            }else {
+            	return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("status", "error", "message", "Film bulunamadı.")); 
+            }
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Dosya yüklenirken bir hata oluştu."));
         }
@@ -146,11 +155,15 @@ public class FilmController {
             String uploadDir = "C:\\Users\\Zafer\\Desktop\\Upload"; 
             String fileName = file.getOriginalFilename();
             String filePath = uploadDir + File.separator + fileName;
-            filmDao.uploadFragman(filmId, filePath);
+            FilmResponse filmResponse = filmDao.uploadFragman(filmId, filePath);
+            if(filmResponse != null ) {
             File dest = new File(filePath);
             file.transferTo(dest);
 
-            return ResponseEntity.ok(Map.of("message", "Film fragmanı başarıyla yüklendi: " + fileName));
+            return ResponseEntity.ok(Map.of("message", "Film fragmanı başarıyla yüklendi: " + fileName, "film" , filmResponse));
+            }else {
+            	return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("status", "error", "message", "Film bulunamadı.")); 
+            }
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Dosya yüklenirken bir hata oluştu."));
         }

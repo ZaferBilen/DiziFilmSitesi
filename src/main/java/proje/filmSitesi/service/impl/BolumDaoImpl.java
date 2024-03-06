@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
+import proje.filmSitesi.core.utilities.exception.BolumNotFoundException;
 import proje.filmSitesi.core.utilities.mappers.IModelMapperService;
 import proje.filmSitesi.model.Bolum;
 import proje.filmSitesi.model.Dizi;
@@ -14,6 +15,7 @@ import proje.filmSitesi.repository.DiziRepository;
 import proje.filmSitesi.requests.dizi.AddBolumRequest;
 import proje.filmSitesi.requests.dizi.UpdateBolumRequest;
 import proje.filmSitesi.responses.dizi.AdminGetAllBolumResponse;
+import proje.filmSitesi.responses.dizi.BolumResponse;
 import proje.filmSitesi.responses.dizi.GetAllBolumResponse;
 import proje.filmSitesi.service.interfaces.BolumDao;
 
@@ -26,7 +28,7 @@ public class BolumDaoImpl implements BolumDao{
 	private IModelMapperService modelMapperService;
 
 	@Override
-	public void addBolum(AddBolumRequest addBolumRequest) {
+	public BolumResponse addBolum(AddBolumRequest addBolumRequest) {
 		
 	    Dizi dizi = diziRepository.findById(addBolumRequest.getDiziId())
 	            .orElseThrow(() -> new RuntimeException("Dizi bulunamadı"));
@@ -36,10 +38,22 @@ public class BolumDaoImpl implements BolumDao{
 	    bolum.setDizi(dizi);
 
 	    bolumRepository.save(bolum);
+	    
+	    return responseBolum(bolum);
+	}
+
+	private BolumResponse responseBolum(Bolum bolum) {
+		return new BolumResponse(
+				bolum.getId(),
+				bolum.getBolum(),
+				bolum.getPath(),
+				bolum.getDizi().getId(),
+				bolum.getDizi().getName()
+				);
 	}
 
 	@Override
-	public void updateBolum(UpdateBolumRequest updateBolumRequest) {
+	public BolumResponse updateBolum(UpdateBolumRequest updateBolumRequest) {
 		
 		Long bolumId = updateBolumRequest.getId();
 
@@ -51,14 +65,21 @@ public class BolumDaoImpl implements BolumDao{
 
 	    modelMapperService.forRequest().map(updateBolumRequest, existingBolum);
 
-	    bolumRepository.save(existingBolum);
+	    Bolum updatedBolum = bolumRepository.save(existingBolum);
+	    
+	    return responseBolum(updatedBolum);
 	}
 		
 
 	@Override
-	public void deleteBolum(Long id) {
+	public BolumResponse deleteBolum(Long id) {
+		
+		Bolum bolum = this.bolumRepository.findById(id)
+				.orElseThrow(() -> new BolumNotFoundException("Dizi bulunamadı"));
 		
 		this.bolumRepository.deleteById(id);
+		
+		return responseBolum(bolum);
 		
 	}
 
@@ -87,14 +108,16 @@ public class BolumDaoImpl implements BolumDao{
 	}
 
 	@Override
-	public void uploadBolum(Long bolumId, String path) {
+	public BolumResponse uploadBolum(Long bolumId, String path) {
 		
 		Bolum bolum = bolumRepository.findById(bolumId).orElse(null);
 		if(bolum != null) {
 			bolum.setPath(path);
 			bolumRepository.save(bolum);
+			
+			return responseBolum(bolum);
 		}
-
+		return null;
 				
 	}
 

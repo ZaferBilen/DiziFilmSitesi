@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AdminGetAllCategoryResponse {
 
-	private int id;
+	private int fkid;
 	
 	private String name;
 }

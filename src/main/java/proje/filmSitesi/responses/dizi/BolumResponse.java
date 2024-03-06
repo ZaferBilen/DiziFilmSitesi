@@ -7,16 +7,15 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetAllDiziResponse {
-	
-	private String name;
+public class BolumResponse {
+   
+	private int id;
 
-	private String kapakPath;
-	
-	private String konu;
-	
-	private String diziCategoryName;
-	
-	private String bolumPath;
-	
+    private String bolum;
+
+    private String path;
+    
+    private Long diziId;
+
+    private String diziName;
 }

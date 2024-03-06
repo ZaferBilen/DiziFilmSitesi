@@ -6,12 +6,14 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
+import proje.filmSitesi.core.utilities.exception.FilmNotFoundException;
 import proje.filmSitesi.core.utilities.mappers.IModelMapperService;
 import proje.filmSitesi.model.Film;
 import proje.filmSitesi.repository.FilmRepository;
 import proje.filmSitesi.requests.film.CreateFilmRequest;
 import proje.filmSitesi.requests.film.UpdateFilmRequest;
 import proje.filmSitesi.responses.film.AdminGetAllFilmsResponse;
+import proje.filmSitesi.responses.film.FilmResponse;
 import proje.filmSitesi.responses.film.GetAllFilmsResponse;
 import proje.filmSitesi.responses.film.GetFilmByNameResponse;
 import proje.filmSitesi.service.interfaces.FilmDao;
@@ -57,63 +59,94 @@ public class FilmDaoImpl implements FilmDao{
 	}
 
 	@Override
-	public void add(CreateFilmRequest createFilmRequest) {
+	public FilmResponse add(CreateFilmRequest createFilmRequest) {
 		
 		Film film = this.modelMapperService.forRequest()
 				.map(createFilmRequest, Film.class);
 		
-		this.filmRepository.save(film);
+		film = this.filmRepository.save(film);
+		
+		return responseFilm(film);
 		
 	}
 
+	private FilmResponse responseFilm(Film film) {
+		return new FilmResponse(
+				film.getId(),
+				film.getName(),
+				film.getKonu(),
+				film.getYili(),
+				film.getYonetmen(),
+				film.getKapakPath(),
+				film.getFragmanPath(),
+				film.getFilmPath(),
+				film.getFilmCategory().getFkid()
+				);
+				
+	}
+
 	@Override
-	public void update(UpdateFilmRequest updateFilmRequest) {
+	public FilmResponse update(UpdateFilmRequest updateFilmRequest) {
 		
 		Film film = this.modelMapperService.forRequest()
 				.map(updateFilmRequest, Film.class);
 		
-		this.filmRepository.save(film);
+		film = this.filmRepository.save(film);
 		
+		return responseFilm(film);
 	}
 
 	@Override
-	public void delete(Long id) {
+	public FilmResponse delete(Long id) {
+		
+		Film film = filmRepository.findById(id)
+				.orElseThrow(() -> new FilmNotFoundException("Film bulunamadı")); 
 		
 		this.filmRepository.deleteById(id);
 		
+		return responseFilm(film);
+		
 	}
 
 	@Override
-	public void uploadFilm(Long filmId, String filmPath) {
+	public FilmResponse uploadFilm(Long filmId, String filmPath) {
 		
 		Film film = filmRepository.findById(filmId).orElse(null);
 		if(film != null) {
 			film.setFilmPath(filmPath);
 			filmRepository.save(film);
 			
+			return responseFilm(film);
+			
 		}
-		
+		return null;
 	}
 
 	@Override
-	public void uploadKapak(Long filmId, String kapakPath) {
+	public FilmResponse uploadKapak(Long filmId, String kapakPath) {
 		
 		Film film = filmRepository.findById(filmId).orElse(null);
 		if(film != null) {
 			film.setKapakPath(kapakPath);
 			filmRepository.save(film);
 			
+			return responseFilm(film);
+			
 		}
+		return null;
 	}
 
 	@Override
-	public void uploadFragman(Long filmId, String fragmanPath) {
+	public FilmResponse uploadFragman(Long filmId, String fragmanPath) {
 		Film film = filmRepository.findById(filmId).orElse(null);
 		if(film != null) {
 			film.setFragmanPath(fragmanPath);
 			filmRepository.save(film);
 			
+			return responseFilm(film);
+			
 		}
+		return null;
 	}
 
 }

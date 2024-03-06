@@ -17,5 +17,5 @@ public class CreateDiziRequest {
 
     private String yonetmen;
 	
-	private int diziCategoryId;
+	private int diziCategoryDkid;
 }

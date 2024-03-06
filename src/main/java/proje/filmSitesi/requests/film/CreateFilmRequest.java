@@ -17,6 +17,6 @@ public class CreateFilmRequest {
 	
 	private String yonetmen;	
 	
-	private int filmCategoryId;
+	private int filmCategoryFkid;
 
 }

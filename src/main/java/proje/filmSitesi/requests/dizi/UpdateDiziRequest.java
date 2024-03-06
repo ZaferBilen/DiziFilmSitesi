@@ -19,5 +19,5 @@ public class UpdateDiziRequest {
 	
 	private String yonetmen;	
 	
-	private int filmCategoryId;
+	private int diziCategoryDkid;
 }

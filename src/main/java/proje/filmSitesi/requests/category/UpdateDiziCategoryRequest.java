@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UpdateDiziCategoryRequest {
 	
-	private int id;
+	private int dkid;
 	private String name;
 }

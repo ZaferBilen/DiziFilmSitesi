@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import proje.filmSitesi.requests.dizi.CreateDiziRequest;
 import proje.filmSitesi.requests.dizi.UpdateDiziRequest;
 import proje.filmSitesi.responses.dizi.AdminGetAllDiziResponse;
+import proje.filmSitesi.responses.dizi.DiziResponse;
 import proje.filmSitesi.responses.dizi.GetAllDiziResponse;
 import proje.filmSitesi.responses.dizi.GetDiziByNameResponse;
 import proje.filmSitesi.service.interfaces.DiziDao;
@@ -63,16 +64,16 @@ public class DiziController {
 	 @PreAuthorize("hasAuthority('ADMIN')")
 	 public ResponseEntity<Object> addDizi(@RequestBody CreateDiziRequest createDiziRequest){			
 			
-		diziDao.add(createDiziRequest);
-		return ResponseEntity.ok(Map.of("message", "Dizi eklendi."));
+		DiziResponse diziResponse = diziDao.add(createDiziRequest);
+		return ResponseEntity.ok(Map.of("message","Dizi eklendi" + diziResponse ));
 		}
 
 	 @PutMapping("/admin/update-dizi")
 	 @PreAuthorize("hasAuthority('ADMIN')")
 	 public ResponseEntity<Object> updateDizi(@RequestBody UpdateDiziRequest updateDiziRequest){			
 			
-		 diziDao.update(updateDiziRequest);
-		 return ResponseEntity.ok(Map.of("message", "Dizi güncellendi."));
+		 DiziResponse diziResponse = diziDao.update(updateDiziRequest);
+		 return ResponseEntity.ok(Map.of("message","Dizi güncellendi" + diziResponse ));
 		 
 		}
 	 
@@ -81,15 +82,16 @@ public class DiziController {
 	 @PreAuthorize("hasAuthority('ADMIN')")
 	 public ResponseEntity<Object> deleteDizi(@PathVariable Long id){			
 			
-		 diziDao.delete(id);
-		 return ResponseEntity.ok(Map.of("message", "Dizi silindi."));
+		 DiziResponse diziResponse = diziDao.delete(id);
+		 return ResponseEntity.ok(Map.of("message", "Dizi silindi." + diziResponse));
 		 
 		}
 	 
 	 @PostMapping("/admin/{diziId}/upload-kapak")
 	 @PreAuthorize("hasAuthority('ADMIN')")
 	 public ResponseEntity<Object> uploadKapak(@PathVariable Long diziId, @RequestPart("file") MultipartFile file) { 		
-	     if (file.isEmpty()) {
+	    
+		 if (file.isEmpty()) {
 	         return ResponseEntity.badRequest().body(Map.of("error", "Dosya seçilmedi."));
 	     }
 
@@ -97,11 +99,15 @@ public class DiziController {
 	         String uploadDir = "C:\\Users\\Zafer\\Desktop\\Upload";
 	         String fileName = file.getOriginalFilename();
 	         String filePath = uploadDir + File.separator + fileName;
-	         diziDao.uploadKapak(diziId, filePath); 
+	         DiziResponse diziResponse = diziDao.uploadKapak(diziId, filePath);
+	         if(diziResponse != null) { 
 	         File dest = new File(filePath);
 	         file.transferTo(dest);
 
-	         return ResponseEntity.ok(Map.of("status", "success", "message", "Dizi kapağı başarıyla yüklendi: " + fileName));
+	         return ResponseEntity.ok(Map.of("status", "success", "message", "Dizi kapağı başarıyla yüklendi: " + fileName , "dizi" , diziResponse));
+	         }else {
+	        	 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("status", "error", "message", "Dizi bulunamadı.")); 
+	         }
 	     } catch (IOException e) {
 	         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("status", "error", "message", "Dosya yüklenirken bir hata oluştu."));
 	     }
@@ -119,11 +125,15 @@ public class DiziController {
 	         String uploadDir = "C:\\Users\\Zafer\\Desktop\\Upload";
 	         String fileName = file.getOriginalFilename();
 	         String filePath = uploadDir + File.separator + fileName;
-	         diziDao.uploadFragman(diziId, filePath); 
+	         DiziResponse diziResponse = diziDao.uploadFragman(diziId, filePath); 
+	         if(diziResponse != null) { 
 	         File dest = new File(filePath);
 	         file.transferTo(dest);
 
-	         return ResponseEntity.ok(Map.of("message", "Dizi fragmanı başarıyla yüklendi: " + fileName));
+	         return ResponseEntity.ok(Map.of("message", "Dizi fragmanı başarıyla yüklendi: " + fileName, "dizi" , diziResponse));
+	         }else {
+	        	 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("status", "error", "message", "Dizi bulunamadı.")); 
+	         }
 	     } catch (IOException e) {
 	         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Dosya yüklenirken bir hata oluştu."));
 	     }
