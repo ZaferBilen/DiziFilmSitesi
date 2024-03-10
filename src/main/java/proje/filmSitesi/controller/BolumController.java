@@ -3,7 +3,6 @@ package proje.filmSitesi.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,29 +37,29 @@ public class BolumController {
 	
 	@PostMapping("/admin/addbolum")
 	@PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Object> addBolum(@RequestBody AddBolumRequest addBolumRequest){  
+    public ResponseEntity<BolumResponse> addBolum(@RequestBody AddBolumRequest addBolumRequest){  
 		
 		BolumResponse bolumResponse = bolumDao.addBolum(addBolumRequest);
-		return ResponseEntity.ok(Map.of("message","Bölüm yüklendi." ,"bölüm" , bolumResponse));
+		return ResponseEntity.ok(bolumResponse);
 		
 	}
 	
 	@PutMapping("/admin/updatebolum")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Object> updateBolum(@RequestBody UpdateBolumRequest updateBolumRequest) {		
+    public ResponseEntity<BolumResponse> updateBolum(@RequestBody UpdateBolumRequest updateBolumRequest) {		
         
 		BolumResponse bolumResponse = bolumDao.updateBolum(updateBolumRequest);
-        return ResponseEntity.ok(Map.of("message","Bölüm güncellendi." ,"bölüm" , bolumResponse));
+        return ResponseEntity.ok(bolumResponse);
         
     }
 
 	
     @DeleteMapping("/admin/deletebolum/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Object> deleteBolum(@PathVariable Long id) {		
+    public ResponseEntity<BolumResponse> deleteBolum(@PathVariable Long id) {		
        
     	BolumResponse bolumResponse = bolumDao.deleteBolum(id);
-        return ResponseEntity.ok(Map.of("message","Bölüm silindi.","bölüm" , bolumResponse));
+        return ResponseEntity.ok(bolumResponse);
         
     }
     
@@ -84,12 +83,11 @@ public class BolumController {
     }
     
 
-    
     @PostMapping("/admin/{bolumId}/upload-bolum")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Object> uploadBolum(@PathVariable Long bolumId, @RequestPart("file") MultipartFile file) {		
+    public ResponseEntity<BolumResponse> uploadBolum(@PathVariable Long bolumId, @RequestPart("file") MultipartFile file) {		
         if (file.isEmpty()) {
-            return ResponseEntity.badRequest().body(Map.of("error", "Dosya seçilmedi."));
+        	return ResponseEntity.badRequest().body(null);
         }
 
         try {
@@ -103,12 +101,12 @@ public class BolumController {
             File dest = new File(filePath);
             file.transferTo(dest);
 
-            return ResponseEntity.ok(Map.of("message", "Bölüm dosyası başarıyla yüklendi: " + fileName, "dizi" , bolumResponse));
+            return ResponseEntity.ok(bolumResponse);
             }else {
-            	return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("status", "error", "message", "Bölüm bulunamadı.")); 
+            	return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
             }
         } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Dosya yüklenirken bir hata oluştu."));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
     

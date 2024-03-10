@@ -3,7 +3,6 @@ package proje.filmSitesi.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -65,36 +64,36 @@ public class FilmController {
 	 
 	@PostMapping("/admin/addfilm")
 	@PreAuthorize("hasAuthority('ADMIN')")
-	public ResponseEntity<Object> addFilm(@RequestBody CreateFilmRequest createFilmRequest){			
+	public ResponseEntity<FilmResponse> addFilm(@RequestBody CreateFilmRequest createFilmRequest){			
 		
 		FilmResponse filmResponse = filmDao.add(createFilmRequest);
-		return ResponseEntity.ok(Map.of("message","Film eklendi.","film" , filmResponse));
+		return ResponseEntity.ok(filmResponse);
 	}
 	
 	
 	@PutMapping("/admin/updatefilm")
 	@PreAuthorize("hasAuthority('ADMIN')")
-	public ResponseEntity<Object> updateilm(@RequestBody UpdateFilmRequest updateFilmRequest){				
+	public ResponseEntity<FilmResponse> updateilm(@RequestBody UpdateFilmRequest updateFilmRequest){				
 		
 		FilmResponse filmResponse = filmDao.update(updateFilmRequest);
-		return ResponseEntity.ok(Map.of("message","Film güncellendi.","film" , filmResponse));
+		return ResponseEntity.ok(filmResponse);
 	}
 	
     @DeleteMapping("/admin/deletefilm/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-	public ResponseEntity<Object> deleteFilm(@PathVariable Long id){				
+	public ResponseEntity<FilmResponse> deleteFilm(@PathVariable Long id){				
 		
     	FilmResponse filmResponse = filmDao.delete(id);
-		return ResponseEntity.ok(Map.of("message","Film silindi.","film" , filmResponse));
+		return ResponseEntity.ok(filmResponse);
 	}
     
     
     
     @PostMapping("/admin/{filmId}/upload-film")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Object> uploadFilm(@PathVariable Long filmId, @RequestPart("file") MultipartFile file) {			
+    public ResponseEntity<FilmResponse> uploadFilm(@PathVariable Long filmId, @RequestPart("file") MultipartFile file) {			
         if (file.isEmpty()) {
-            return ResponseEntity.badRequest().body(Map.of("error", "Dosya seçilmedi."));
+            return ResponseEntity.badRequest().body(null);
         }
 
         try {
@@ -106,12 +105,12 @@ public class FilmController {
             File dest = new File(filePath);
             file.transferTo(dest);
 
-            return ResponseEntity.ok(Map.of("message", "Film başarıyla yüklendi: " + fileName, "film" , filmResponse));
+            return ResponseEntity.ok(filmResponse);
             }else {
-            	return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("status", "error", "message", "Film bulunamadı.")); 
+            	return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); 
             }
         } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Dosya yüklenirken bir hata oluştu."));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
     
@@ -119,9 +118,9 @@ public class FilmController {
     
     @PostMapping("/admin/{filmId}/upload-kapak")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Object> uploadKapak(@PathVariable Long filmId, @RequestPart("file") MultipartFile file) {				
+    public ResponseEntity<FilmResponse> uploadKapak(@PathVariable Long filmId, @RequestPart("file") MultipartFile file) {				
         if (file.isEmpty()) {
-            return ResponseEntity.badRequest().body(Map.of("error", "Dosya seçilmedi."));
+            return ResponseEntity.badRequest().body(null);
         }
 
         try {
@@ -133,12 +132,12 @@ public class FilmController {
             File dest = new File(filePath);
             file.transferTo(dest);
 
-            return ResponseEntity.ok(Map.of("message", "Film kapağı başarıyla yüklendi: " + fileName, "film" , filmResponse));
+            return ResponseEntity.ok(filmResponse);
             }else {
-            	return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("status", "error", "message", "Film bulunamadı.")); 
+            	return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); 
             }
         } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Dosya yüklenirken bir hata oluştu."));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
     
@@ -146,9 +145,9 @@ public class FilmController {
     
     @PostMapping("/admin/{filmId}/upload-fragman")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Object> uploadFragman(@PathVariable Long filmId, @RequestPart("file") MultipartFile file) {			
+    public ResponseEntity<FilmResponse> uploadFragman(@PathVariable Long filmId, @RequestPart("file") MultipartFile file) {			
         if (file.isEmpty()) {
-            return ResponseEntity.badRequest().body(Map.of("error", "Dosya seçilmedi."));
+            return ResponseEntity.badRequest().body(null);
         }
 
         try {
@@ -160,12 +159,12 @@ public class FilmController {
             File dest = new File(filePath);
             file.transferTo(dest);
 
-            return ResponseEntity.ok(Map.of("message", "Film fragmanı başarıyla yüklendi: " + fileName, "film" , filmResponse));
+            return ResponseEntity.ok(filmResponse);
             }else {
-            	return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("status", "error", "message", "Film bulunamadı.")); 
+            	return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); 
             }
         } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Dosya yüklenirken bir hata oluştu."));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 

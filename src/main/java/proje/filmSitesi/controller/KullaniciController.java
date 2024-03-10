@@ -50,10 +50,9 @@ public class KullaniciController {
 	}
 	
 	@PostMapping("/kullanici/kayıt")
-	public ResponseEntity<AuthenticationResponse> register(
-            @RequestBody KullaniciKayitRequests request
-            ) {
-        return ResponseEntity.ok(kullaniciDao.kullaniciKayit(request));
+	public ResponseEntity<AuthenticationResponse> register(@RequestBody KullaniciKayitRequests request) {
+        
+		return ResponseEntity.ok(kullaniciDao.kullaniciKayit(request));
     }
 	
 	@GetMapping("/users/all")
@@ -63,10 +62,9 @@ public class KullaniciController {
     }
 	
 	@PostMapping("/giris")
-	public ResponseEntity<AuthenticationGirisResponse> login(
-            @RequestBody KullaniciGirisRequests request
-    ) {
-        return ResponseEntity.ok(kullaniciDao.authenticate(request));
+	public ResponseEntity<AuthenticationGirisResponse> login(@RequestBody KullaniciGirisRequests request) {
+        
+		return ResponseEntity.ok(kullaniciDao.authenticate(request));
     }
 	
 
