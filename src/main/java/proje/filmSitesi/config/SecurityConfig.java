@@ -1,5 +1,7 @@
 package proje.filmSitesi.config;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -19,14 +21,11 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
-
-import lombok.AllArgsConstructor;
-import proje.filmSitesi.core.utilities.JwtAuthenticationFilter;
-
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import static org.springframework.security.config.Customizer.withDefaults;
+import lombok.AllArgsConstructor;
+import proje.filmSitesi.core.utilities.JwtAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -93,7 +92,7 @@ public class SecurityConfig {
 		    @Bean
 		    public CorsConfigurationSource corsConfigurationSource() {
 		        CorsConfiguration configuration = new CorsConfiguration();
-		        configuration.setAllowedOrigins(Collections.singletonList("http://localhost:4200"));
+		        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200", "https://drive.google.com"));
 		        configuration.setAllowedMethods(Arrays.asList("*")); 
 		        configuration.setAllowedHeaders(Arrays.asList("*"));
 		        configuration.setAllowCredentials(true);
@@ -102,5 +101,6 @@ public class SecurityConfig {
 		        source.registerCorsConfiguration("/**", configuration);
 		        return source;
 		    }
+		    
 		    
 	  }

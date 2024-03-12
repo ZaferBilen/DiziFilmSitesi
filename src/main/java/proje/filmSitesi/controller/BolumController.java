@@ -1,7 +1,7 @@
 package proje.filmSitesi.controller;
 
-import java.io.File;
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -85,28 +85,12 @@ public class BolumController {
 
     @PostMapping("/admin/{bolumId}/upload-bolum")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<BolumResponse> uploadBolum(@PathVariable Long bolumId, @RequestPart("file") MultipartFile file) {		
-        if (file.isEmpty()) {
-        	return ResponseEntity.badRequest().body(null);
-        }
-
+    public ResponseEntity<BolumResponse> uploadBolum(@PathVariable Long bolumId, @RequestPart("file") MultipartFile file) {
         try {
-            String uploadDir = "C:\\Users\\Zafer\\Desktop\\Upload";
-            String fileName = file.getOriginalFilename();
-            String filePath = uploadDir + File.separator + fileName;
-
-            BolumResponse bolumResponse = bolumDao.uploadBolum(bolumId, filePath); 
-            
-            if(bolumResponse != null) {
-            File dest = new File(filePath);
-            file.transferTo(dest);
-
-            return ResponseEntity.ok(bolumResponse);
-            }else {
-            	return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-            }
-        } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            return ResponseEntity.ok(bolumDao.uploadBolum(bolumId, file));
+        } catch (IOException | GeneralSecurityException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
     

@@ -20,7 +20,7 @@ public class Bolum {
 
     private String bolum;
 
-    private String path;
+    private String bolumPath;
 
     @ManyToOne
     @JoinColumn(name = "dizi_id")

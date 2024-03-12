@@ -1,6 +1,11 @@
 package proje.filmSitesi.service.interfaces;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.List;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 import proje.filmSitesi.requests.dizi.CreateDiziRequest;
 import proje.filmSitesi.requests.dizi.UpdateDiziRequest;
@@ -23,7 +28,11 @@ public interface DiziDao {
 	
 	DiziResponse delete(Long id);
 	
-	DiziResponse uploadKapak(Long diziId , String kapakPath);
+	ResponseEntity<DiziResponse> uploadKapak(Long diziId, MultipartFile file) throws IOException, GeneralSecurityException;
 	
-	DiziResponse uploadFragman(Long diziId , String fragmanPath);
+	ResponseEntity<DiziResponse> uploadFragman(Long diziId, MultipartFile file) throws IOException, GeneralSecurityException;
+
+	
+
+	
 }

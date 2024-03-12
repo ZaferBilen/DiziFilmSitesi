@@ -1,7 +1,7 @@
 package proje.filmSitesi.controller;
 
-import java.io.File;
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,59 +88,26 @@ public class DiziController {
 	 
 	 @PostMapping("/admin/{diziId}/upload-kapak")
 	 @PreAuthorize("hasAuthority('ADMIN')")
-	 public ResponseEntity<DiziResponse> uploadKapak(@PathVariable Long diziId, @RequestPart("file") MultipartFile file) { 		
-	    
-		 if (file.isEmpty()) {
-	         return ResponseEntity.badRequest().body(null);
-	     }
-
+	 public ResponseEntity<DiziResponse> uploadKapak(@PathVariable Long diziId, @RequestPart("file") MultipartFile file) {     
 	     try {
-	         String uploadDir = "C:\\Users\\Zafer\\Desktop\\Upload";
-	         String fileName = file.getOriginalFilename();
-	         String filePath = uploadDir + File.separator + fileName;
-	         DiziResponse diziResponse = diziDao.uploadKapak(diziId, filePath);
-	         if(diziResponse != null) { 
-	         File dest = new File(filePath);
-	         file.transferTo(dest);
-
-	         return ResponseEntity.ok(diziResponse);
-	         }else {
-	        	 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-	         }
-	     } catch (IOException e) {
-	    	 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+	         return diziDao.uploadKapak(diziId, file);
+	     } catch (IOException | GeneralSecurityException e) {
+	         e.printStackTrace();
+	         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 	     }
 	 }
 	
 	 
 	 @PostMapping("/admin/{diziId}/upload-fragman")
 	 @PreAuthorize("hasAuthority('ADMIN')")
-	 public ResponseEntity<DiziResponse> uploadFragman(@PathVariable Long diziId, @RequestPart("file") MultipartFile file) {  
-	     if (file.isEmpty()) {
-	    	 return ResponseEntity.badRequest().body(null);
-	     }
-
+	 public ResponseEntity<DiziResponse> uploadFragman(@PathVariable Long diziId, @RequestPart("file") MultipartFile file) {
 	     try {
-	         String uploadDir = "C:\\Users\\Zafer\\Desktop\\Upload";
-	         String fileName = file.getOriginalFilename();
-	         String filePath = uploadDir + File.separator + fileName;
-	         DiziResponse diziResponse = diziDao.uploadFragman(diziId, filePath); 
-	         if(diziResponse != null) { 
-	         File dest = new File(filePath);
-	         file.transferTo(dest);
-
-	         return ResponseEntity.ok(diziResponse);
-	         }else {
-	        	 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-	         }
-	     } catch (IOException e) {
-	    	 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);	
+	         return diziDao.uploadFragman(diziId, file);
+	     } catch (IOException | GeneralSecurityException e) {
+	         e.printStackTrace();
+	         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 	     }
 	 }
-	 
-	 
-	 
-	 
 	 
 	 
 }

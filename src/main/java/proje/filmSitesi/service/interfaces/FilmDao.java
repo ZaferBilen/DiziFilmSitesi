@@ -1,6 +1,11 @@
 package proje.filmSitesi.service.interfaces;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.List;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 import proje.filmSitesi.requests.film.CreateFilmRequest;
 import proje.filmSitesi.requests.film.UpdateFilmRequest;
@@ -23,11 +28,11 @@ public interface FilmDao {
 	
 	FilmResponse delete(Long id);
 	
-	FilmResponse uploadFilm(Long filmId , String filmPath);
-	
-	FilmResponse uploadKapak(Long filmId , String kapakPath);
-	
-	FilmResponse uploadFragman(Long filmId , String fragmanPath);
+	ResponseEntity<FilmResponse> uploadFragman(Long filmId, MultipartFile file) throws IOException, GeneralSecurityException;
+
+	ResponseEntity<FilmResponse> uploadKapak(Long filmId, MultipartFile file) throws IOException, GeneralSecurityException;
+
+	ResponseEntity<FilmResponse> uploadFilm(Long filmId, MultipartFile file)throws IOException, GeneralSecurityException;
 
 
 }

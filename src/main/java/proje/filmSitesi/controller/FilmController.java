@@ -2,6 +2,7 @@ package proje.filmSitesi.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,80 +93,38 @@ public class FilmController {
     @PostMapping("/admin/{filmId}/upload-film")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<FilmResponse> uploadFilm(@PathVariable Long filmId, @RequestPart("file") MultipartFile file) {			
-        if (file.isEmpty()) {
-            return ResponseEntity.badRequest().body(null);
-        }
-
-        try {
-            String uploadDir = "C:\\Users\\Zafer\\Desktop\\Upload"; 
-            String fileName = file.getOriginalFilename();
-            String filePath = uploadDir + File.separator + fileName;
-            FilmResponse filmResponse = filmDao.uploadFilm(filmId, filePath);
-            if(filmResponse != null ) {
-            File dest = new File(filePath);
-            file.transferTo(dest);
-
-            return ResponseEntity.ok(filmResponse);
-            }else {
-            	return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); 
-            }
-        } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
-    }
+    	try {
+	         return filmDao.uploadFilm(filmId, file);
+	     } catch (IOException | GeneralSecurityException e) {
+	         e.printStackTrace();
+	         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+	     }
+	 }
     
     
     
     @PostMapping("/admin/{filmId}/upload-kapak")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<FilmResponse> uploadKapak(@PathVariable Long filmId, @RequestPart("file") MultipartFile file) {				
-        if (file.isEmpty()) {
-            return ResponseEntity.badRequest().body(null);
-        }
-
-        try {
-            String uploadDir = "C:\\Users\\Zafer\\Desktop\\Upload"; 
-            String fileName = file.getOriginalFilename();
-            String filePath = uploadDir + File.separator + fileName;
-            FilmResponse filmResponse = filmDao.uploadKapak(filmId, filePath);
-            if(filmResponse != null ) {
-            File dest = new File(filePath);
-            file.transferTo(dest);
-
-            return ResponseEntity.ok(filmResponse);
-            }else {
-            	return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); 
-            }
-        } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
-    }
+    	 try {
+	         return filmDao.uploadKapak(filmId, file);
+	     } catch (IOException | GeneralSecurityException e) {
+	         e.printStackTrace();
+	         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+	     }
+	 }
     
     
     
     @PostMapping("/admin/{filmId}/upload-fragman")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<FilmResponse> uploadFragman(@PathVariable Long filmId, @RequestPart("file") MultipartFile file) {			
-        if (file.isEmpty()) {
-            return ResponseEntity.badRequest().body(null);
-        }
-
         try {
-            String uploadDir = "C:\\Users\\Zafer\\Desktop\\Upload"; 
-            String fileName = file.getOriginalFilename();
-            String filePath = uploadDir + File.separator + fileName;
-            FilmResponse filmResponse = filmDao.uploadFragman(filmId, filePath);
-            if(filmResponse != null ) {
-            File dest = new File(filePath);
-            file.transferTo(dest);
-
-            return ResponseEntity.ok(filmResponse);
-            }else {
-            	return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); 
-            }
-        } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
-    }
+	         return filmDao.uploadFragman(filmId, file);
+	     } catch (IOException | GeneralSecurityException e) {
+	         e.printStackTrace();
+	         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+	     }
+	 }
 
 }

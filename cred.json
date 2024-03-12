@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "dizi-film-sitesi",
+  "private_key_id": "9e2153f6f92c62a23796110b323f8d3177203a7a",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDdjX/XTl6BRA3O\nHS1M2P2d76DHZvjX0xUzDZ/fHh8Q2rdRLhtXDAH+K+bLPcx8f9Z7V7guBqpTr3oL\nRstZpydLKeO3VSOgRR4twRYKe7a6jGIn99TSqnINdTgE4Ri/uT9m1v6LpDnv7Vm6\n1OfuP7mwjRpDuwzxiaw3quwLglmsUzziKAvthSauDXRmu8vyPB7oMtFKK0xme9Jk\nCCaq5JfExigmKWhVpY009Ka5HAw+JI/v716yLxnoYDTSLW+dc/p/Jg9XGOZUwBjr\nf3ssnEyhEAok4hmXA/2e1amnQ8vTB/c9NrpPPm8BJ6DhS4h/iJz8c/LidRiPTobZ\nVa99HiYRAgMBAAECggEAI2FFqWVgyXXLr+mQOAsYMnt3imr9kWxU9f/WqEkQHvST\n0l6cNmy6zhMcBRgg/+oOSfN6fGcgwMJvU+kB75bg5dY9AM7ozzRFGyYQK1Zm731x\nmKkGudRG6F1FYooWa1oy2he6iHmOWFaSk2JiiJ/GkH9yp/RGnzUkD7O3hChUbPnb\nAeg0dLzxMjh9+0JewweniWVmToq+sOht2bNkEKSo3wVfuBKCfE1VrFeo/T7uyUqE\nwBLeVLIcepeVIJXdiEny0rmn9Z65+wQSC8Fgw46Uv627qdHwVZOhhF4IClLoICAP\n0zyBDzeCGnWEKdFYAs1R+tN6SE/oClAUiBlC7tklrQKBgQD+2GnzGobvLj4cLDLx\nP/EtPLoBrNRpssAc6onEpw9yCzfLrXLvFpztqHyeX4F/jWcFAgkpquzPmVmbf70E\nZ0jcu3/QxHRmu3n8yzZ72+aCebk7pS4Hukn+/4fniFIVE+piRimX8u4ivc3Ntytf\n+0m7QiSObcXODyCRs2/xvZTXewKBgQDejnh20AoyNBxob59dsPhG00NlRJ5KG2Ei\nzbsy0AwhkO27jGXzbNAJnG8H8dN2EynrgL1KWDB6esKra0Rk9k4y24k3jc6W05yo\nx995+N7gZguOclMo8NN9IEoFqDAJmE7KVN4D5bJlDQx6/8mizz4vlValgKhmlatp\n1Jo82DL84wKBgQCu9GPIQa3hBh4duTo/5WXtaINKIxywc8bwExQBra8s3AayDaGa\nAiw5/DGRiH+e0bSn+33O3Uk2PFEIL+nT3BRpdU+KQ1SmMo7MvbXp0k2txWMlT4EK\nTRn/te3XRf8T+Vgvn3tulZhmwWdIkzdz7U/w/reaEEJ79GanoEh57W0BgQKBgQDI\ndMCyG14jq+YuduOvCtgFSwI4M17zVsfeBjnnYZaboSNPuvyVDdwv2/PxzvHtNwOZ\n+CIG1XoMx4eRyJMY8PSsQCrOm+6I0V8Ycrap8OwmaCNekUCv7oI/AJdLkxp5efL1\nsQ0rq3dMJz2nh76A43OafkNF3KVRiNuU/gZSaVU7iwKBgG56+fTOgKXjcS/tjJVG\nRceRN+le2odiQM8RPVjeqL4+6tyM7i4mGxd6+ZqkFrGM/Pbyr7tdUXGA8Fx8UXCQ\nl/AXDZr4AhaQrehOJqUU6HMPbcBTpttoQdPCGFEZshSvf3RlOKcgzBt52HXKmAeM\n+5TyG2A55MXkB5+KMEOL9cPt\n-----END PRIVATE KEY-----\n",
+  "client_email": "googledriveupload@dizi-film-sitesi.iam.gserviceaccount.com",
+  "client_id": "105390885790790719802",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/googledriveupload%40dizi-film-sitesi.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

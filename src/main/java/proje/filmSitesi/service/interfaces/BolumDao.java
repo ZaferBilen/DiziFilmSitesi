@@ -1,6 +1,10 @@
 package proje.filmSitesi.service.interfaces;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import proje.filmSitesi.requests.dizi.AddBolumRequest;
 import proje.filmSitesi.requests.dizi.UpdateBolumRequest;
@@ -20,5 +24,11 @@ public interface BolumDao {
 	
 	List<AdminGetAllBolumResponse> adminGetAllBolumResponse();
 	
-	BolumResponse uploadBolum(Long bolumId , String path);
+	BolumResponse uploadBolum(Long bolumId, MultipartFile file) throws IOException, GeneralSecurityException;
+
+	
+
+	
+
+	
 }

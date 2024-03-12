@@ -13,6 +13,6 @@ public class GetAllBolumResponse {
 	
 	private String bolum;
 	
-	private String path;
+	private String bolumPath;
 
 }

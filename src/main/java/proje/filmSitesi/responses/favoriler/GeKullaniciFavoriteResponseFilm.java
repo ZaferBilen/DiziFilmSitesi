@@ -10,4 +10,10 @@ import lombok.NoArgsConstructor;
 public class GeKullaniciFavoriteResponseFilm {
 
 	private String filmName;
+	
+	private String kapakPath;  
+	
+	private String fragmanPath;
+	
+	private String filmPath;
 }

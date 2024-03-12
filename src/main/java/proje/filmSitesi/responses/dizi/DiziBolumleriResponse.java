@@ -11,4 +11,6 @@ public class DiziBolumleriResponse {
 
 	private String bolum;
 	
+	private String bolumPath;
+	
 }

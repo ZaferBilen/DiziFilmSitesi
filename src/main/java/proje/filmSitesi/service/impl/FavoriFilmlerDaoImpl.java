@@ -90,7 +90,10 @@ public class FavoriFilmlerDaoImpl implements FavoriFilmlerDao {
 	        if (kullanici != null) {
 	            List<GeKullaniciFavoriteResponseFilm> response = new ArrayList<>();
 	            for (FavoriFilmler favoriler : kullanici.getFavoriFilmler()) {
-	                response.add(new GeKullaniciFavoriteResponseFilm(favoriler.getFilm().getName()));
+	                response.add(new GeKullaniciFavoriteResponseFilm(favoriler.getFilm().getName(),
+	                		favoriler.getFilm().getKapakPath(), 
+	                		favoriler.getFilm().getFragmanPath(),
+	                		favoriler.getFilm().getFilmPath()));
 	            }
 	            
 	            return response;

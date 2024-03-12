@@ -1,13 +1,21 @@
 package proje.filmSitesi.service.impl;
 
+import java.io.File;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.AllArgsConstructor;
 import proje.filmSitesi.core.utilities.exception.DiziNotFoundException;
 import proje.filmSitesi.core.utilities.mappers.IModelMapperService;
+import proje.filmSitesi.googleDrive.GoogleService;
+import proje.filmSitesi.googleDrive.ResFragman;
+import proje.filmSitesi.googleDrive.ResKapak;
 import proje.filmSitesi.model.Dizi;
 import proje.filmSitesi.repository.DiziRepository;
 import proje.filmSitesi.requests.dizi.CreateDiziRequest;
@@ -24,6 +32,8 @@ public class DiziDaoImpl implements DiziDao{
 	
 	private DiziRepository diziRepository;
 	private IModelMapperService modelMapperService;
+	
+	private GoogleService driveService;
 
 	@Override
 	public List<GetAllDiziResponse> getAllDiziResponse() {
@@ -80,8 +90,10 @@ public class DiziDaoImpl implements DiziDao{
 		        dizi.getYonetmen(),
 		        dizi.getFragmanPath(),
 		        dizi.getKapakPath(),
-		        dizi.getDiziCategory().getDkid()
+		        dizi.getDiziCategory().getDkid()		        
+		        
 		 );
+		
 	}
 
 	@Override
@@ -108,33 +120,39 @@ public class DiziDaoImpl implements DiziDao{
 	}
 
 	@Override
-	public DiziResponse uploadKapak(Long diziId, String kapakPath) {
-		
-		 Dizi dizi = diziRepository.findById(diziId).orElse(null);
-		 if(dizi !=null) {
-			 dizi.setKapakPath(kapakPath);
-			 diziRepository.save(dizi);
-			 
-			 return responseDizi(dizi);
-			 
-		 }
-		return null;
-		
+	public ResponseEntity<DiziResponse> uploadKapak(Long diziId, MultipartFile file) throws IOException, GeneralSecurityException {
+	    Dizi dizi = diziRepository.findById(diziId).orElse(null);
+	    if (dizi != null) {
+	        ResKapak res = driveService.uploadImageToDriveKapak(convert(file));
+	        if (res != null && res.getStatusKapak() == 200) {
+	            dizi.setKapakPath(res.getUrlKapak());
+	            diziRepository.save(dizi);
+	            return ResponseEntity.ok(responseDizi(dizi));
+	        }
+	    }
+	    return ResponseEntity.notFound().build();
 	}
 
+	
 	@Override
-	public DiziResponse uploadFragman(Long diziId, String fragmanPath) {
-		
-		Dizi dizi = diziRepository.findById(diziId).orElse(null);
-		 if(dizi !=null) {
-			 dizi.setFragmanPath(fragmanPath);
-			 diziRepository.save(dizi);
-			 
-			 return responseDizi(dizi);
-			 
-		 }
-		return null;
+	public ResponseEntity<DiziResponse> uploadFragman(Long diziId, MultipartFile file) throws IOException, GeneralSecurityException {
+	    Dizi dizi = diziRepository.findById(diziId).orElse(null);
+	    if (dizi != null) {
+	    	ResFragman res = driveService.uploadVideoToDriveFragman(convert(file));
+	        if (res != null && res.getStatusFragman() == 200) {
+	            dizi.setFragmanPath(res.getUrlFragman());
+	            diziRepository.save(dizi);
+	            return ResponseEntity.ok(responseDizi(dizi));
+	        }
+	    }
+	    return ResponseEntity.notFound().build();
 	}
+	
+	private File convert(MultipartFile file) throws IOException {
+        File convFile = File.createTempFile("temp", null);
+        file.transferTo(convFile);
+        return convFile;
+    }
 
 	
 }

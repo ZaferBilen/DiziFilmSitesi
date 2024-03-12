@@ -12,12 +12,14 @@ import org.springframework.stereotype.Service;
 import lombok.AllArgsConstructor;
 import proje.filmSitesi.config.KullaniciInfoDetails;
 import proje.filmSitesi.core.utilities.mappers.IModelMapperService;
+import proje.filmSitesi.model.Bolum;
 import proje.filmSitesi.model.FavoriDiziler;
 import proje.filmSitesi.model.Kullanici;
 import proje.filmSitesi.repository.FavoriDizilerRepository;
 import proje.filmSitesi.repository.KullaniciRepository;
 import proje.filmSitesi.requests.favoriler.AddFavoriDiziRequest;
 import proje.filmSitesi.requests.favoriler.RemoveFavoriDiziRequest;
+import proje.filmSitesi.responses.dizi.KullaniciBolumResponse;
 import proje.filmSitesi.responses.favoriler.GeKullaniciFavoriteResponseDizi;
 import proje.filmSitesi.service.interfaces.FavoriDizilerDao;
 
@@ -75,25 +77,38 @@ public class FavoriDizilerDaoImpl implements FavoriDizilerDao {
 
 	@Override
 	public List<GeKullaniciFavoriteResponseDizi> getFavorilerByKullanici() {
-		
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-		if (authentication != null && authentication.getPrincipal() instanceof KullaniciInfoDetails) {
-		    KullaniciInfoDetails kullaniciInfo = (KullaniciInfoDetails) authentication.getPrincipal();
-		    Long loggedInKullaniciId = kullaniciInfo.getId();
+	    if (authentication != null && authentication.getPrincipal() instanceof KullaniciInfoDetails) {
+	        KullaniciInfoDetails kullaniciInfo = (KullaniciInfoDetails) authentication.getPrincipal();
+	        Long loggedInKullaniciId = kullaniciInfo.getId();
 
-		    Kullanici kullanici = kullaniciRepository.findById(loggedInKullaniciId).orElse(null);
-		    
-		if(kullanici != null) {
-			List<GeKullaniciFavoriteResponseDizi> response = new ArrayList<>();
-			for(FavoriDiziler favoriDiziler : kullanici.getFavoriDiziler()) {
-				response.add(new GeKullaniciFavoriteResponseDizi(favoriDiziler.getDizi().getName()));
-			}
-			
-			return response;
-		   }
-		}
-		return Collections.emptyList();
+	        Kullanici kullanici = kullaniciRepository.findById(loggedInKullaniciId).orElse(null);
+
+	        if (kullanici != null) {
+	            List<GeKullaniciFavoriteResponseDizi> response = new ArrayList<>();
+	            for (FavoriDiziler favoriDiziler : kullanici.getFavoriDiziler()) {
+	                GeKullaniciFavoriteResponseDizi favoriResponse = new GeKullaniciFavoriteResponseDizi();
+	                favoriResponse.setDiziName(favoriDiziler.getDizi().getName());
+	                favoriResponse.setDiziKapakPath(favoriDiziler.getDizi().getKapakPath());
+	                favoriResponse.setDiziFragmanPath(favoriDiziler.getDizi().getFragmanPath());
+	                
+	                List<KullaniciBolumResponse> bolumler = new ArrayList<>();
+	                for (Bolum bolum : favoriDiziler.getDizi().getBolumList()) {
+	                    KullaniciBolumResponse bolumResponse = new KullaniciBolumResponse();
+	                    bolumResponse.setBolum(bolum.getBolum());
+	                    bolumResponse.setBolumPath(bolum.getBolumPath());
+	                    bolumler.add(bolumResponse);
+	                }
+	                favoriResponse.setBolumler(bolumler);
+
+	                response.add(favoriResponse);
+	            }
+
+	            return response;
+	        }
+	    }
+	    return Collections.emptyList();
 	}
 
 }

@@ -1,13 +1,19 @@
 package proje.filmSitesi.service.impl;
 
+import java.io.File;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.AllArgsConstructor;
 import proje.filmSitesi.core.utilities.exception.BolumNotFoundException;
 import proje.filmSitesi.core.utilities.mappers.IModelMapperService;
+import proje.filmSitesi.googleDrive.GoogleService;
+import proje.filmSitesi.googleDrive.ResBolum;
 import proje.filmSitesi.model.Bolum;
 import proje.filmSitesi.model.Dizi;
 import proje.filmSitesi.repository.BolumRespository;
@@ -26,6 +32,8 @@ public class BolumDaoImpl implements BolumDao{
 	private DiziRepository diziRepository;
 	private BolumRespository bolumRepository;
 	private IModelMapperService modelMapperService;
+	
+	private GoogleService driveService;
 
 	@Override
 	public BolumResponse addBolum(AddBolumRequest addBolumRequest) {
@@ -46,7 +54,7 @@ public class BolumDaoImpl implements BolumDao{
 		return new BolumResponse(
 				bolum.getId(),
 				bolum.getBolum(),
-				bolum.getPath(),
+				bolum.getBolumPath(),
 				bolum.getDizi().getId(),
 				bolum.getDizi().getName()
 				);
@@ -96,7 +104,7 @@ public class BolumDaoImpl implements BolumDao{
 	}
 
 	@Override
-	public List<AdminGetAllBolumResponse> adminGetAllBolumResponse() {
+	public List<AdminGetAllBolumResponse> adminGetAllBolumResponse() {  // değişecek
 		
 		List<Bolum> bolums =bolumRepository.findAll();
 		
@@ -108,17 +116,23 @@ public class BolumDaoImpl implements BolumDao{
 	}
 
 	@Override
-	public BolumResponse uploadBolum(Long bolumId, String path) {
-		
-		Bolum bolum = bolumRepository.findById(bolumId).orElse(null);
-		if(bolum != null) {
-			bolum.setPath(path);
-			bolumRepository.save(bolum);
-			
-			return responseBolum(bolum);
-		}
-		return null;
-				
+	public BolumResponse uploadBolum(Long bolumId, MultipartFile file) throws IOException, GeneralSecurityException {
+	    Bolum bolum = bolumRepository.findById(bolumId).orElse(null);
+	    if (bolum != null) {
+	        ResBolum res = driveService.uploadVideoToDriveBolum(convert(file));
+	        if (res != null && res.getStatusBolum() == 200) {
+	            bolum.setBolumPath(res.getUrlBolum());
+	            bolumRepository.save(bolum);
+	            return responseBolum(bolum);
+	        }
+	    }
+	    return null;
 	}
+	
+	private File convert(MultipartFile file) throws IOException {
+        File convFile = File.createTempFile("temp", null);
+        file.transferTo(convFile);
+        return convFile;
+    }
 
 }
