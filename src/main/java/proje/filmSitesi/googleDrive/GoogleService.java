@@ -46,7 +46,7 @@ public class GoogleService {
             com.google.api.services.drive.model.File uploadedFile = drive.files().create(fileMetaData, mediaContent)
                     .setFields("id").execute();
                 
-            String videoUrlFragman = "https://drive.google.com/file/d/" + uploadedFile.getId();
+            String videoUrlFragman = "https://drive.google.com/file/d/" + uploadedFile.getId() + "/preview" ;
             System.out.println("Video URLFragman: " + videoUrlFragman);
             
             file.delete();
@@ -109,7 +109,7 @@ public class GoogleService {
             com.google.api.services.drive.model.File uploadedFile = drive.files().create(fileMetaData, mediaContent)
                     .setFields("id").execute();
             
-            String videoUrlBolum = "https://drive.google.com/file/d/" + uploadedFile.getId();
+            String videoUrlBolum = "https://drive.google.com/file/d/" + uploadedFile.getId() + "/preview" ;
             System.out.println("Video URLBolum: " + videoUrlBolum);
             
             file.delete();
@@ -159,7 +159,7 @@ public class GoogleService {
                 com.google.api.services.drive.model.File uploadedFile = drive.files().create(fileMetaData, mediaContent)
                         .setFields("id").execute();
                 
-                String videoUrlFragmanFilm = "https://drive.google.com/file/d/" + uploadedFile.getId();
+                String videoUrlFragmanFilm = "https://drive.google.com/file/d/" + uploadedFile.getId() + "/preview" ;
                 System.out.println("Video URLFilmFragman: " + videoUrlFragmanFilm);
                 
                 file.delete();
@@ -225,7 +225,7 @@ public class GoogleService {
                         .setFields("id").execute();
                 
                 
-                String videoUrlFilm = "https://drive.google.com/file/d/" + uploadedFile.getId();
+                String videoUrlFilm = "https://drive.google.com/file/d/" + uploadedFile.getId() + "/preview" ;
                 System.out.println("Video URLFilm: " + videoUrlFilm);
                 
                 file.delete();

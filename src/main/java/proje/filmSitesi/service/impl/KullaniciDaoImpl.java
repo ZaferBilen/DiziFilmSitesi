@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,6 +20,9 @@ import proje.filmSitesi.model.Kullanici.UserRole;
 import proje.filmSitesi.repository.KullaniciRepository;
 import proje.filmSitesi.requests.kullanici.KullaniciGirisRequests;
 import proje.filmSitesi.requests.kullanici.KullaniciKayitRequests;
+import proje.filmSitesi.responses.dizi.KullaniciBolumResponse;
+import proje.filmSitesi.responses.favoriler.GeKullaniciFavoriteResponseDizi;
+import proje.filmSitesi.responses.favoriler.GeKullaniciFavoriteResponseFilm;
 import proje.filmSitesi.responses.kullanici.AuthenticationGirisResponse;
 import proje.filmSitesi.responses.kullanici.AuthenticationResponse;
 import proje.filmSitesi.responses.kullanici.GetAllKullaniciResponse;
@@ -95,25 +99,52 @@ public class KullaniciDaoImpl implements KullaniciDao{
 	}
 	
 	
-	public AuthenticationGirisResponse authenticate(KullaniciGirisRequests kullaniciGirisRequests) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                		kullaniciGirisRequests.getEmail(),
-                		kullaniciGirisRequests.getSifre()
-                )
-        );
-        
-        Kullanici kullanici = kullaniciRepository.findByEmail(kullaniciGirisRequests.getEmail()).orElseThrow();
-        String jwt = jwtService.generateToken(kullanici);
-        Long id = kullanici.getId(); 
-        String name = kullanici.getName();
-        String surname = kullanici.getSurname();
-        String email = kullanici.getEmail();
-        UserRole role = kullanici.getRole();
-        
-        return new AuthenticationGirisResponse(jwt, id, name, surname, email, role);
+
+public AuthenticationGirisResponse authenticate(KullaniciGirisRequests kullaniciGirisRequests) {
+    authenticationManager.authenticate(
+        new UsernamePasswordAuthenticationToken(
+            kullaniciGirisRequests.getEmail(),
+            kullaniciGirisRequests.getSifre()
+        )
+    );
+    
+    Kullanici kullanici = kullaniciRepository.findByEmail(kullaniciGirisRequests.getEmail()).orElseThrow();
+    String jwt = jwtService.generateToken(kullanici);
+    Long id = kullanici.getId(); 
+    String name = kullanici.getName();
+    String surname = kullanici.getSurname();
+    String email = kullanici.getEmail();
+    UserRole role = kullanici.getRole();
+    
+    List<GeKullaniciFavoriteResponseDizi> favoriDiziler = kullanici.getFavoriDiziler().stream()
+        .map(favoriDizi -> {
+            GeKullaniciFavoriteResponseDizi responseDizi = new GeKullaniciFavoriteResponseDizi();
+            responseDizi.setDiziName(favoriDizi.getDizi().getName());
+            responseDizi.setDiziKapakPath(favoriDizi.getDizi().getKapakPath());
+            responseDizi.setDiziFragmanPath(favoriDizi.getDizi().getFragmanPath());
+            // Bolumler listesini doldurma
+            responseDizi.setBolumler(favoriDizi.getDizi().getBolumList().stream()
+                .map(bolum -> new KullaniciBolumResponse(bolum.getBolum(), bolum.getBolumPath()))
+                .collect(Collectors.toList()));
+            return responseDizi;
+        })
+        .collect(Collectors.toList());
+    
+    List<GeKullaniciFavoriteResponseFilm> favoriFilmler = kullanici.getFavoriFilmler().stream()
+        .map(favoriFilm -> {
+            GeKullaniciFavoriteResponseFilm responseFilm = new GeKullaniciFavoriteResponseFilm();
+            responseFilm.setFilmName(favoriFilm.getFilm().getName());
+            responseFilm.setKapakPath(favoriFilm.getFilm().getKapakPath());
+            responseFilm.setFragmanPath(favoriFilm.getFilm().getFragmanPath());
+            responseFilm.setFilmPath(favoriFilm.getFilm().getFilmPath());
+            return responseFilm;
+        })
+        .collect(Collectors.toList());
+    
+    return new AuthenticationGirisResponse(jwt, id, name, surname, email, role, favoriDiziler, favoriFilmler);
+}
 	
-	}
+	
 	@Override
 	public List<GetAllKullaniciResponse> getAllUsers(){
 		List<Kullanici> users = kullaniciRepository.findAll();

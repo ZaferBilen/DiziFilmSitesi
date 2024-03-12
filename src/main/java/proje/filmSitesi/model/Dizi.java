@@ -3,8 +3,8 @@ package proje.filmSitesi.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -35,7 +35,7 @@ public class Dizi {
 
     private String fragmanPath;
 
-    @OneToMany(mappedBy = "dizi" , fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "dizi" , cascade = CascadeType.ALL)
     private List<Bolum> bolumList = new ArrayList<>();
 
     @ManyToOne

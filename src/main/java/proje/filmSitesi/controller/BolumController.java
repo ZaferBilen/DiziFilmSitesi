@@ -2,14 +2,12 @@ package proje.filmSitesi.controller;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -22,9 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import lombok.AllArgsConstructor;
 import proje.filmSitesi.requests.dizi.AddBolumRequest;
 import proje.filmSitesi.requests.dizi.UpdateBolumRequest;
-import proje.filmSitesi.responses.dizi.AdminGetAllBolumResponse;
 import proje.filmSitesi.responses.dizi.BolumResponse;
-import proje.filmSitesi.responses.dizi.GetAllBolumResponse;
 import proje.filmSitesi.service.interfaces.BolumDao;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -64,24 +60,6 @@ public class BolumController {
     }
     
 
-    @GetMapping("/getallbolums")
-    public ResponseEntity<List<GetAllBolumResponse>> getAllBolumResponse() {
-       
-    	List<GetAllBolumResponse> bolum = bolumDao.getAllBolumResponse();
-        return ResponseEntity.ok(bolum);
-        
-    }
-
-    
-    @GetMapping("/admin/getallbolums")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<List<AdminGetAllBolumResponse>> adminGetAllBolumResponse() {
-        
-    	List<AdminGetAllBolumResponse> bolum = bolumDao.adminGetAllBolumResponse();
-        return ResponseEntity.ok(bolum);
-        
-    }
-    
 
     @PostMapping("/admin/{bolumId}/upload-bolum")
     @PreAuthorize("hasAuthority('ADMIN')")

@@ -3,8 +3,6 @@ package proje.filmSitesi.service.impl;
 import java.io.File;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,9 +18,7 @@ import proje.filmSitesi.repository.BolumRespository;
 import proje.filmSitesi.repository.DiziRepository;
 import proje.filmSitesi.requests.dizi.AddBolumRequest;
 import proje.filmSitesi.requests.dizi.UpdateBolumRequest;
-import proje.filmSitesi.responses.dizi.AdminGetAllBolumResponse;
 import proje.filmSitesi.responses.dizi.BolumResponse;
-import proje.filmSitesi.responses.dizi.GetAllBolumResponse;
 import proje.filmSitesi.service.interfaces.BolumDao;
 
 @Service
@@ -89,30 +85,6 @@ public class BolumDaoImpl implements BolumDao{
 		
 		return responseBolum(bolum);
 		
-	}
-
-	@Override
-	public List<GetAllBolumResponse> getAllBolumResponse() {
-		
-		List<Bolum> bolums =bolumRepository.findAll();
-		
-		List<GetAllBolumResponse> response = bolums.stream()
-				.map(bolum -> this.modelMapperService.forResponse()
-						.map(bolum, GetAllBolumResponse.class)).collect(Collectors.toList());
-		
-		return response;
-	}
-
-	@Override
-	public List<AdminGetAllBolumResponse> adminGetAllBolumResponse() {  // değişecek
-		
-		List<Bolum> bolums =bolumRepository.findAll();
-		
-		List<AdminGetAllBolumResponse> response = bolums.stream()
-				.map(bolum -> this.modelMapperService.forResponse()
-						.map(bolum, AdminGetAllBolumResponse.class)).collect(Collectors.toList());
-		
-		return response;	
 	}
 
 	@Override
