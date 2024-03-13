@@ -26,4 +26,5 @@ public class FilmResponse {
 	private String filmPath;
 	
 	private int filmCategoryFkid;
+	
 }

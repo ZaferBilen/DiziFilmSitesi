@@ -9,12 +9,21 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GetFilmByNameResponse {
 	
+	private Long id;
+
 	private String name;
-	
-	private String kapakPath;
 	
 	private String konu;
 	
+	private String yili;
+	
+	private String yonetmen;
+	
+	private String kapakPath;  
+	
+	private String fragmanPath;
+	
+	private String filmPath;
+	
 	private String filmCategoryName;
-
 }

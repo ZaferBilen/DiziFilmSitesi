@@ -8,15 +8,21 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AdminGetAllFilmsResponse {
+	
+	private Long id;
 
-	private Long id ;
-	
 	private String name;
-	
-	private String kapakPath;
 	
 	private String konu;
 	
-	private String filmCategoryName;
+	private String yili;
+	
+	private String yonetmen;
+	
+	private String kapakPath;  
+	
+	private String fragmanPath;
+	
+	private String filmPath;
 	
 }
