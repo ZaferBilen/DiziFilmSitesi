@@ -2,6 +2,8 @@ package proje.filmSitesi.model;
 
 import java.util.List;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,6 +17,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "filmler")
+@DynamicUpdate
 public class Film {
 	
 	@Id

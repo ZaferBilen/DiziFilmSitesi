@@ -11,9 +11,9 @@ public class GeKullaniciFavoriteResponseFilm {
 
 	private String filmName;
 	
-	private String kapakPath;  
+	private String filmKapakPath;  
 	
-	private String fragmanPath;
+	private String filmFragmanPath;
 	
-	private String filmPath;
+	private String filmFilmPath;
 }

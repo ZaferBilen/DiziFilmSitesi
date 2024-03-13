@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GetAllDiziCategoryResponse {
+	
+	private int dkid;
 
 	private String name;
 }

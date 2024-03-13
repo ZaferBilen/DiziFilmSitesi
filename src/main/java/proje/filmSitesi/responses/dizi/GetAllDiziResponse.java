@@ -17,6 +17,8 @@ public class GetAllDiziResponse {
 
 	private String kapakPath;
 	
+	private String fragmanPath;
+	
 	private String konu;
 	
 	private String diziCategoryName;

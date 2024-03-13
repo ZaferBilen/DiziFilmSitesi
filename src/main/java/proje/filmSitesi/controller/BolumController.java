@@ -63,7 +63,7 @@ public class BolumController {
 
     @PostMapping("/admin/{bolumId}/upload-bolum")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<BolumResponse> uploadBolum(@PathVariable Long bolumId, @RequestPart("file") MultipartFile file) {
+    public ResponseEntity<BolumResponse> uploadBolum(@PathVariable Long bolumId, @RequestPart("file") MultipartFile file) throws InterruptedException {
         try {
             return ResponseEntity.ok(bolumDao.uploadBolum(bolumId, file));
         } catch (IOException | GeneralSecurityException e) {

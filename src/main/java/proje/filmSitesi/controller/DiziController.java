@@ -76,7 +76,6 @@ public class DiziController {
 		 
 		}
 	 
-	 
 	 @DeleteMapping("/admin/deletedizi/{id}")
 	 @PreAuthorize("hasAuthority('ADMIN')")
 	 public ResponseEntity<DiziResponse> deleteDizi(@PathVariable Long id){			
@@ -88,9 +87,10 @@ public class DiziController {
 	 
 	 @PostMapping("/admin/{diziId}/upload-kapak")
 	 @PreAuthorize("hasAuthority('ADMIN')")
-	 public ResponseEntity<DiziResponse> uploadKapak(@PathVariable Long diziId, @RequestPart("file") MultipartFile file) {     
+	 public ResponseEntity<DiziResponse> uploadKapak(@PathVariable Long diziId, @RequestPart("file") MultipartFile file) {
 	     try {
-	         return diziDao.uploadKapak(diziId, file);
+	         DiziResponse response = diziDao.uploadKapak(diziId, file);
+	         return ResponseEntity.ok(response);
 	     } catch (IOException | GeneralSecurityException e) {
 	         e.printStackTrace();
 	         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -102,12 +102,47 @@ public class DiziController {
 	 @PreAuthorize("hasAuthority('ADMIN')")
 	 public ResponseEntity<DiziResponse> uploadFragman(@PathVariable Long diziId, @RequestPart("file") MultipartFile file) {
 	     try {
-	         return diziDao.uploadFragman(diziId, file);
+	         DiziResponse response = diziDao.uploadFragman(diziId, file);
+	         return ResponseEntity.ok(response);
 	     } catch (IOException | GeneralSecurityException e) {
 	         e.printStackTrace();
 	         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 	     }
 	 }
 	 
+	/* 
+	 @PostMapping("/admin/{diziId}/upload-kapak")
+	    @PreAuthorize("hasAuthority('ADMIN')")
+	    public ResponseEntity<DiziResponse> uploadKapak(@PathVariable Long diziId, @RequestPart("file") MultipartFile file) {
+	        try {
+	            System.out.println("1)");
+	            try {
+	                // 2 saniye uyuma
+	                Thread.sleep(3000);
+	            } catch (InterruptedException e) {
+	                // Uyku kesintiye uğrarsa (interrupted), burası çalışır
+	                e.printStackTrace();
+	            }
+	            System.out.println("2)");
+	            DiziResponse diziResponse = diziDao.uploadKapak(diziId, file);
+	            return ResponseEntity.ok(diziResponse);
+	        } catch (IOException | GeneralSecurityException e) {
+	            e.printStackTrace();
+	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+	        }
+	    }
+
+	    @PostMapping("/admin/{diziId}/upload-fragman")
+	    @PreAuthorize("hasAuthority('ADMIN')")
+	    public ResponseEntity<DiziResponse> uploadFragman(@PathVariable Long diziId, @RequestPart("file") MultipartFile file) {
+	        try {
+	            DiziResponse diziResponse = diziDao.uploadFragman(diziId, file);
+	            return ResponseEntity.ok(diziResponse);
+	        } catch (IOException | GeneralSecurityException e) {
+	            e.printStackTrace();
+	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+	        }
+	    }
 	 
+	 */
 }

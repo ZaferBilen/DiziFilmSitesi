@@ -3,10 +3,10 @@ package proje.filmSitesi.service.impl;
 import java.io.File;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,11 +16,13 @@ import proje.filmSitesi.core.utilities.mappers.IModelMapperService;
 import proje.filmSitesi.googleDrive.GoogleService;
 import proje.filmSitesi.googleDrive.ResFragman;
 import proje.filmSitesi.googleDrive.ResKapak;
+import proje.filmSitesi.model.Bolum;
 import proje.filmSitesi.model.Dizi;
 import proje.filmSitesi.repository.DiziRepository;
 import proje.filmSitesi.requests.dizi.CreateDiziRequest;
 import proje.filmSitesi.requests.dizi.UpdateDiziRequest;
 import proje.filmSitesi.responses.dizi.AdminGetAllDiziResponse;
+import proje.filmSitesi.responses.dizi.BolumResponse;
 import proje.filmSitesi.responses.dizi.DiziResponse;
 import proje.filmSitesi.responses.dizi.GetAllDiziResponse;
 import proje.filmSitesi.responses.dizi.GetDiziByNameResponse;
@@ -81,19 +83,33 @@ public class DiziDaoImpl implements DiziDao{
 	}
 
 
-	private DiziResponse responseDizi(Dizi dizi) {
-		return new DiziResponse(
-				dizi.getId(),
-		        dizi.getName(),
-		        dizi.getKonu(),
-		        dizi.getYili(),
-		        dizi.getYonetmen(),
-		        dizi.getFragmanPath(),
-		        dizi.getKapakPath(),
-		        dizi.getDiziCategory().getDkid()		        
-		        
-		 );
-		
+	public DiziResponse responseDizi(Dizi dizi) {
+
+	    List<BolumResponse> bolumList = new ArrayList<>();
+
+	    if (dizi.getBolumList() != null && !dizi.getBolumList().isEmpty()) {
+	        for (Bolum bolum : dizi.getBolumList()) {
+	            bolumList.add(new BolumResponse(
+	                    bolum.getId(),
+	                    bolum.getBolum(),
+	                    bolum.getBolumPath(),
+	                    dizi.getId(), 
+	                    dizi.getName() 
+	            ));
+	        }
+	    }
+
+	    return new DiziResponse(
+	            dizi.getId(),
+	            dizi.getName(),
+	            dizi.getKonu(),
+	            dizi.getYili(),
+	            dizi.getYonetmen(),
+	            dizi.getKapakPath(),
+	            dizi.getFragmanPath(),
+	            bolumList,
+	            dizi.getDiziCategory() != null ? dizi.getDiziCategory().getDkid() : null
+	    );
 	}
 
 	@Override
@@ -120,32 +136,32 @@ public class DiziDaoImpl implements DiziDao{
 	}
 
 	@Override
-	public ResponseEntity<DiziResponse> uploadKapak(Long diziId, MultipartFile file) throws IOException, GeneralSecurityException {
+	public DiziResponse uploadKapak(Long diziId, MultipartFile file) throws IOException, GeneralSecurityException {
 	    Dizi dizi = diziRepository.findById(diziId).orElse(null);
 	    if (dizi != null) {
 	        ResKapak res = driveService.uploadImageToDriveKapak(convert(file));
 	        if (res != null && res.getStatusKapak() == 200) {
 	            dizi.setKapakPath(res.getUrlKapak());
 	            diziRepository.save(dizi);
-	            return ResponseEntity.ok(responseDizi(dizi));
+	            return responseDizi(dizi);
 	        }
 	    }
-	    return ResponseEntity.notFound().build();
+	    return null;
 	}
 
 	
 	@Override
-	public ResponseEntity<DiziResponse> uploadFragman(Long diziId, MultipartFile file) throws IOException, GeneralSecurityException {
+	public DiziResponse uploadFragman(Long diziId, MultipartFile file) throws IOException, GeneralSecurityException {
 	    Dizi dizi = diziRepository.findById(diziId).orElse(null);
 	    if (dizi != null) {
 	    	ResFragman res = driveService.uploadVideoToDriveFragman(convert(file));
 	        if (res != null && res.getStatusFragman() == 200) {
 	            dizi.setFragmanPath(res.getUrlFragman());
 	            diziRepository.save(dizi);
-	            return ResponseEntity.ok(responseDizi(dizi));
+	            return responseDizi(dizi);
 	        }
 	    }
-	    return ResponseEntity.notFound().build();
+	    return null;
 	}
 	
 	private File convert(MultipartFile file) throws IOException {

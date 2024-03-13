@@ -1,6 +1,5 @@
 package proje.filmSitesi.controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.List;

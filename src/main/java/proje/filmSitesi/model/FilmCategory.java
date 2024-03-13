@@ -3,6 +3,8 @@ package proje.filmSitesi.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -15,6 +17,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "film_categories")
+@DynamicUpdate
 public class FilmCategory {
 	
 	@Id

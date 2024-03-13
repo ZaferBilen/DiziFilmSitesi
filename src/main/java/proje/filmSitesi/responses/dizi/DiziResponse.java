@@ -1,5 +1,7 @@
 package proje.filmSitesi.responses.dizi;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,7 +25,10 @@ public class DiziResponse {
 
     private String fragmanPath;
     
+    private List<BolumResponse> bolumler;
+    
     private int diziCategoryDkid;
+    
     
     
 }

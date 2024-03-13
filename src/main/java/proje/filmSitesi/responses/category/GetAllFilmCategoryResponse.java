@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GetAllFilmCategoryResponse {
 	
+	private int fkid;
+	
 	private String name;
 
 }

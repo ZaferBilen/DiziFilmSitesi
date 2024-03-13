@@ -122,7 +122,7 @@ public AuthenticationGirisResponse authenticate(KullaniciGirisRequests kullanici
             responseDizi.setDiziName(favoriDizi.getDizi().getName());
             responseDizi.setDiziKapakPath(favoriDizi.getDizi().getKapakPath());
             responseDizi.setDiziFragmanPath(favoriDizi.getDizi().getFragmanPath());
-            // Bolumler listesini doldurma
+
             responseDizi.setBolumler(favoriDizi.getDizi().getBolumList().stream()
                 .map(bolum -> new KullaniciBolumResponse(bolum.getBolum(), bolum.getBolumPath()))
                 .collect(Collectors.toList()));
@@ -134,9 +134,9 @@ public AuthenticationGirisResponse authenticate(KullaniciGirisRequests kullanici
         .map(favoriFilm -> {
             GeKullaniciFavoriteResponseFilm responseFilm = new GeKullaniciFavoriteResponseFilm();
             responseFilm.setFilmName(favoriFilm.getFilm().getName());
-            responseFilm.setKapakPath(favoriFilm.getFilm().getKapakPath());
-            responseFilm.setFragmanPath(favoriFilm.getFilm().getFragmanPath());
-            responseFilm.setFilmPath(favoriFilm.getFilm().getFilmPath());
+            responseFilm.setFilmKapakPath(favoriFilm.getFilm().getKapakPath());
+            responseFilm.setFilmFragmanPath(favoriFilm.getFilm().getFragmanPath());
+            responseFilm.setFilmFilmPath(favoriFilm.getFilm().getFilmPath());
             return responseFilm;
         })
         .collect(Collectors.toList());

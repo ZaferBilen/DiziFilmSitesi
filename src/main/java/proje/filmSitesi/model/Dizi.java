@@ -3,6 +3,8 @@ package proje.filmSitesi.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,6 +19,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "diziler")
+@DynamicUpdate
 public class Dizi {
 
 	@Id

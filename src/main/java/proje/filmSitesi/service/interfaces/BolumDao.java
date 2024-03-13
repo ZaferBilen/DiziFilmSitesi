@@ -17,7 +17,7 @@ public interface BolumDao {
 	
 	BolumResponse deleteBolum(Long id);
 	
-	BolumResponse uploadBolum(Long bolumId, MultipartFile file) throws IOException, GeneralSecurityException;
+	BolumResponse uploadBolum(Long bolumId, MultipartFile file) throws IOException, GeneralSecurityException , InterruptedException;
 
 	
 
