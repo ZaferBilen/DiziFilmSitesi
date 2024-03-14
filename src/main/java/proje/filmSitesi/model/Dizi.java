@@ -46,7 +46,7 @@ public class Dizi {
     private DiziCategory diziCategory;
     
     
-    @OneToMany(mappedBy = "dizi")
+    @OneToMany(mappedBy = "dizi", cascade = CascadeType.ALL)
     private List<FavoriDiziler> favoriDizilerList;
 
 }

@@ -60,7 +60,7 @@ public class FavoriDizilerDaoImpl implements FavoriDizilerDao {
   }
 
 	@Override
-	public void removeFavoriteDizi(RemoveFavoriDiziRequest removeFavoriDiziRequest) {
+	public void removeFavoriteDizi(RemoveFavoriDiziRequest removeFavoriDiziRequest) {   //request kaldır ve Long id olarak ayarlamayı dene
 		
 		 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -89,9 +89,12 @@ public class FavoriDizilerDaoImpl implements FavoriDizilerDao {
 	            List<GeKullaniciFavoriteResponseDizi> response = new ArrayList<>();
 	            for (FavoriDiziler favoriDiziler : kullanici.getFavoriDiziler()) {
 	                GeKullaniciFavoriteResponseDizi favoriResponse = new GeKullaniciFavoriteResponseDizi();
+	                favoriResponse.setDiziId(favoriDiziler.getDizi().getId());
 	                favoriResponse.setDiziName(favoriDiziler.getDizi().getName());
 	                favoriResponse.setDiziKapakPath(favoriDiziler.getDizi().getKapakPath());
 	                favoriResponse.setDiziFragmanPath(favoriDiziler.getDizi().getFragmanPath());
+	                favoriResponse.setId(favoriDiziler.getId());
+	                
 	                
 	                List<KullaniciBolumResponse> bolumler = new ArrayList<>();
 	                for (Bolum bolum : favoriDiziler.getDizi().getBolumList()) {

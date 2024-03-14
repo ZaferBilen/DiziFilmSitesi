@@ -8,6 +8,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GeKullaniciFavoriteResponseFilm {
+	
+	private int id;
+	
+	private Long filmId;
 
 	private String filmName;
 	

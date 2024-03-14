@@ -61,7 +61,7 @@ public class FavoriFilmlerDaoImpl implements FavoriFilmlerDao {
 	
 	
 	@Override
-	public void removeFavoriteFilm(RemoveFavoriFilmRequest removeFavoriFilmRequest) {
+	public void removeFavoriteFilm(RemoveFavoriFilmRequest removeFavoriFilmRequest) {		//request kaldır ve Long id olarak ayarlamayı dene
 		 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
 		    if (authentication != null && authentication.getPrincipal() instanceof KullaniciInfoDetails) {
@@ -89,11 +89,19 @@ public class FavoriFilmlerDaoImpl implements FavoriFilmlerDao {
 	        
 	        if (kullanici != null) {
 	            List<GeKullaniciFavoriteResponseFilm> response = new ArrayList<>();
-	            for (FavoriFilmler favoriler : kullanici.getFavoriFilmler()) {
-	                response.add(new GeKullaniciFavoriteResponseFilm(favoriler.getFilm().getName(),
-	                		favoriler.getFilm().getKapakPath(), 
-	                		favoriler.getFilm().getFragmanPath(),
-	                		favoriler.getFilm().getFilmPath()));
+	            for (FavoriFilmler favoriFilmler : kullanici.getFavoriFilmler()) {
+	            	GeKullaniciFavoriteResponseFilm favoriResponse = new GeKullaniciFavoriteResponseFilm();
+	            			favoriResponse.setId(favoriFilmler.getId());
+	            			favoriResponse.setFilmId(favoriFilmler.getFilm().getId());
+	            			favoriResponse.setFilmName(favoriFilmler.getFilm().getName());
+	            			favoriResponse.setFilmFilmPath(favoriFilmler.getFilm().getFilmPath());
+	            			favoriResponse.setFilmFragmanPath(favoriFilmler.getFilm().getFragmanPath());
+	            			favoriResponse.setFilmKapakPath(favoriFilmler.getFilm().getKapakPath());
+	            			
+	            			
+	            			response.add(favoriResponse);
+	            			
+	            			
 	            }
 	            
 	            return response;

@@ -11,7 +11,11 @@ import proje.filmSitesi.responses.dizi.KullaniciBolumResponse;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GeKullaniciFavoriteResponseDizi {
-
+	
+	private int id;
+	
+	private Long diziId;
+	
 	private String diziName;
 	
 	private String diziKapakPath;
@@ -20,5 +24,8 @@ public class GeKullaniciFavoriteResponseDizi {
 	
 	private List<KullaniciBolumResponse> bolumler;
 	
+
+	
 	
 }
+

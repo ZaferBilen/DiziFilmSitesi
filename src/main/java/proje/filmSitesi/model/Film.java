@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.annotations.DynamicUpdate;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -42,7 +43,7 @@ public class Film {
 	@JoinColumn(name = "film_category_id")
 	private FilmCategory filmCategory;    
 	
-    @OneToMany(mappedBy = "film")
+    @OneToMany(mappedBy = "film", cascade = CascadeType.ALL)
     private List<FavoriFilmler> favoriFilmlerList;
     
 }
