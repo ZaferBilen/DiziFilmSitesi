@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Kullanıcı Listesi</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 60%;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: center;
+            padding: 8px;
+        }
+
+        th {
+            background-color: rgb(128, 255, 255);
+        }
+    </style>
+</head>
+<body>
+<h1>Kullanıcı Listesi</h1>
+<table th:if="${users}">
+	
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Adı</th>
+            <th>Soyadı</th>
+            <th>E-posta</th>
+            <th>Rolü</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="kullanici : ${users}">
+            <td th:text="${kullanici.id}"></td>
+            <td th:text="${kullanici.name}"></td>
+            <td th:text="${kullanici.surname}"></td>
+            <td th:text="${kullanici.email}"></td>
+            <td th:text="${kullanici.role}"></td>
+        </tr>
+    </tbody>
+</table>
+</body>
+</html>

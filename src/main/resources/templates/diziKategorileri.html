@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Dizi Kategorileri</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 20%;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: center;
+            padding: 8px;
+        }
+
+        th {
+            background-color: rgb(128, 255, 255);
+        }
+    </style>
+</head>
+<body>
+<h1>Dizi Kategorileri</h1>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Adı</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="category : ${dizikategorileri}">
+        <td th:text="${category.dkid}">1</td>
+        <td th:text="${category.name}">Dizi Adı</td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
+

@@ -24,7 +24,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final KullaniciDetailService userDetailsService;
 
-    private final List<String> excludedUrls = List.of("/kullanici/kod"); // JWT doğrulaması yapılmayacak URL'ler
+    private final List<String> excludedUrls = List.of("/kullanici/kod"); 
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -32,7 +32,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String authHeader = request.getHeader("Authorization");
 
-        // İstek başlığında Authorization bilgisi yoksa veya JWT değilse veya doğrulanması gerekmeyen bir URL'ye yapılan istekse doğrulama yapma
+       
         if (authHeader == null || !authHeader.startsWith("Bearer ") || isExcludedUrl(request)) {
             filterChain.doFilter(request, response);
             return;

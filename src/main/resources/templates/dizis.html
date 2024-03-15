@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Dizi Listesi</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: center;
+            padding: 8px;
+        }
+
+        th {
+            background-color: rgb(128, 255, 255);
+
+        }
+    </style>
+</head>
+<body>
+<h1>Dizi Listesi</h1>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Adı</th>
+        <th>Konu</th>
+        <th>Kategori Adı</th>
+        <th>Bölüm</th>
+        <th>Bölüm Path</th>
+        <th>Kapak Path</th>
+        <th>Fragman Path</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Dizileri listeleme döngüsü -->
+    <tr th:each="dizi : ${dizis}">
+        <td th:text="${dizi.id}">1</td>
+        <td th:text="${dizi.name}">Dizi Adı</td>
+        <td th:text="${dizi.konu}">Konu</td>
+        <td th:text="${dizi.diziCategoryName}">Kategori Adı</td>
+        <!-- İç içe döngü ile bölümleri listeleme -->
+        <td>
+            <ul>
+                <li th:each="bolum : ${dizi.bolum}">
+                    <span th:text="${bolum.bolum}">Bölüm</span>
+                </li>
+            </ul>
+        </td>
+        <td>
+            <ul>
+                <li th:each="bolum : ${dizi.bolum}">
+                    <span th:text="${bolum.bolumPath}">Bölüm Path</span>
+                </li>
+            </ul>
+        </td>
+        <td th:text="${dizi.kapakPath}">Kapak Path</td>
+        <td th:text="${dizi.fragmanPath}">Fragman Path</td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import lombok.AllArgsConstructor;
 import proje.filmSitesi.requests.dizi.CreateDiziRequest;
 import proje.filmSitesi.requests.dizi.UpdateDiziRequest;
 import proje.filmSitesi.responses.dizi.AdminGetAllDiziResponse;
@@ -31,14 +31,11 @@ import proje.filmSitesi.service.interfaces.DiziDao;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/dizi")
+@AllArgsConstructor
 public class DiziController {
 	
 	private DiziDao diziDao;
 	
-	@Autowired
-	public DiziController(DiziDao diziDao) {
-		this.diziDao = diziDao;
-	}
 	
 	@GetMapping("/getalldizi")
 	public ResponseEntity<List<GetAllDiziResponse>> getAllDizi() {

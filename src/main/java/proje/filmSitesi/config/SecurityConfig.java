@@ -46,7 +46,8 @@ public class SecurityConfig {
 				  .csrf(AbstractHttpConfigurer::disable)
 				  .cors(withDefaults())     
 	                .authorizeHttpRequests(
-	                		req->req.requestMatchers("/","/swagger-ui/**", "/v3/api-docs/**","/giris" , "/kullanici/kayıt", "/kullanici/kod")
+	                		req->req.requestMatchers("/","/swagger-ui/**", "/v3/api-docs/**","/giris" , "/kullanici/kayıt", "/kullanici/kod","/users","/films","/dizis",
+	                				"/filmkategori", "/dizikategori")
 	                		.permitAll()
 	                		.requestMatchers("/kullanici/sil/{id}","/users/all"
 	                				,"/film/admin/getallfilms","/film/admin/addfilm","/film/admin/updatefilm","/film/admin/deletefilm/{id}"

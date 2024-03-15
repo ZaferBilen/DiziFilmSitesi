@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Film Kategorileri</title>
+  <style>
+    table {
+      width: 20%;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;   
+       }
+    th {
+            background-color: rgb(128, 255, 255);
+
+    }
+  </style>
+</head>
+<body>
+  <h1>Film Kategorileri</h1>
+  <table th:if="${filmkategorileri != null}">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Kategori Adı</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="category : ${filmkategorileri}">
+        <td th:text="${category.fkid}"></td>
+        <td th:text="${category.name}"></td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+</html>

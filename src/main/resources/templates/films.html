@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Film Listesi</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: center;
+            padding: 8px;
+        }
+
+        th {
+            background-color: rgb(128, 255, 255);
+        }
+    </style>
+</head>
+<body>
+<h1>Film Listesi</h1>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Adı</th>
+        <th>Konu</th>
+        <th>Yılı</th>
+        <th>Yönetmen</th>
+        <th>Kapak Path</th>
+        <th>Fragman Path</th>
+        <th>Film Path</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="film : ${films}">
+        <td th:text="${film.id}">1</td>
+        <td th:text="${film.name}">Film Adı</td>
+        <td th:text="${film.konu}">Film Konusu</td>
+        <td th:text="${film.yili}">Yıl</td>
+        <td th:text="${film.yonetmen}">Yönetmen</td>
+        <td th:text="${film.kapakPath}">Kapak Path</td>
+        <td th:text="${film.fragmanPath}">Fragman Path</td>
+        <td th:text="${film.filmPath}">Film Path</td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

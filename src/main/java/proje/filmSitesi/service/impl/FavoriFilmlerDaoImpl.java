@@ -61,7 +61,7 @@ public class FavoriFilmlerDaoImpl implements FavoriFilmlerDao {
 	
 	
 	@Override
-	public void removeFavoriteFilm(RemoveFavoriFilmRequest removeFavoriFilmRequest) {		//request kaldır ve Long id olarak ayarlamayı dene
+	public void removeFavoriteFilm(RemoveFavoriFilmRequest removeFavoriFilmRequest) {		
 		 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
 		    if (authentication != null && authentication.getPrincipal() instanceof KullaniciInfoDetails) {
