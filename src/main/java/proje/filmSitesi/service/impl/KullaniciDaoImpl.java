@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import lombok.AllArgsConstructor;
 import proje.filmSitesi.core.utilities.DogrulamaKoduOnBellegi;
 import proje.filmSitesi.core.utilities.exception.EmailAlreadyExistsException;
+import proje.filmSitesi.core.utilities.exception.VerificationCodeException;
 import proje.filmSitesi.model.Kullanici;
 import proje.filmSitesi.model.Kullanici.UserRole;
 import proje.filmSitesi.repository.KullaniciRepository;
@@ -53,6 +54,8 @@ public class KullaniciDaoImpl implements KullaniciDao{
 	public void dogrulamaKoduGonder(String email) {
 		String dogrulamaKodu = generateVerificationCode();
         DogrulamaKoduOnBellegi.saveVerificationCode(email, dogrulamaKodu);
+        
+  //    System.out.println(dogrulamaKodu); 
 
         emailDao.dogrulamaKoduGonder(email, dogrulamaKodu);
 	}
@@ -71,8 +74,7 @@ public class KullaniciDaoImpl implements KullaniciDao{
 	    String name = kullaniciKayitRequests.getName();
 	    String surname = kullaniciKayitRequests.getSurname();
 	    UserRole role = kullaniciKayitRequests.getRole();
-	    
-	    
+
 	    if (kullaniciRepository.existsByEmail(email)) {
 	        throw new EmailAlreadyExistsException("Bu email adresiyle daha önceden kayıt yapılmış.");
 	    }
@@ -80,26 +82,30 @@ public class KullaniciDaoImpl implements KullaniciDao{
 	    String cachedCode = DogrulamaKoduOnBellegi.getVerificationCode(email);
 
 	    if (cachedCode == null || !cachedCode.equals(dogrulamaKodu)) {
-	        
+	        throw new VerificationCodeException("Doğrulama kodu hatalı.");
 	    }
 
 	    DogrulamaKoduOnBellegi.removeVerificationCode(email);
+
 	    Kullanici kullanici = new Kullanici();
 	    kullanici.setName(name);
 	    kullanici.setSurname(surname);
 	    kullanici.setEmail(email);
 	    kullanici.setSifre(passwordEncoder.encode(sifre));
 	    kullanici.setRole(role);
+	    
+	    
 
 	    kullaniciRepository.save(kullanici);
 	    
+
 	    String jwt = jwtService.generateToken(kullanici);
-	    
+
 	    return new AuthenticationResponse(jwt);
 	}
+		
+	    
 	
-	
-
 public AuthenticationGirisResponse authenticate(KullaniciGirisRequests kullaniciGirisRequests) {
     authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(
